@@ -1,1 +1,2 @@
-# backend
+# Blueprinting
+Delivers view scaffolding to Laravel
