@@ -1,10 +1,6 @@
 name: Test workflow
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -25,3 +21,6 @@ jobs:
 
     - name: Validate that code meets PSR12 standard
       run: composer run-script phpcs
+
+    - name: Run PHPUnit
+      run: vendor/bin/phpunit
