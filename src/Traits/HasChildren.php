@@ -1,6 +1,6 @@
 <?php
 
-namespace Blueprinting;
+namespace Blueprinting\Traits;
 
 use Blueprinting\Interfaces\ElementInterface;
 use Illuminate\Support\Collection;
@@ -24,6 +24,8 @@ trait HasChildren
         if (!isset($this->children)) {
             $this->children = new Collection();
         }
+
+        $child->setRoot($this->getRoot());
 
         $this->children[] = $child;
 

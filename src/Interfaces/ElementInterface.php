@@ -2,6 +2,8 @@
 
 namespace Blueprinting\Interfaces;
 
+use Blueprinting\Blueprint;
+
 interface ElementInterface
 {
     /**
@@ -17,4 +19,20 @@ interface ElementInterface
      * @return string
      */
     public function getType(): string;
+
+    /**
+     * Set element root.
+     *
+     * @return Blueprint|null
+     */
+    public function getRoot(): ?Blueprint;
+
+    /**
+     * Get element root.
+     *
+     * @param Blueprint $blueprint
+     *
+     * @return self
+     */
+    public function setRoot(Blueprint $blueprint): self;
 }
