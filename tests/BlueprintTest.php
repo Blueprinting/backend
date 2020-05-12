@@ -2,17 +2,34 @@
 
 namespace Blueprinting\Tests;
 
+use Blueprinting\Blueprint;
 use Orchestra\Testbench\TestCase;
 
 class BlueprintTest extends TestCase
 {
     /**
-     * Assert blueprint attributes
+     * Assert blueprint object
      *
      * @return void
      */
-    public function testAssert(): void
+    public function testObject(): void
     {
-        $this->assertTrue(true);
+        $blueprint = new Blueprint();
+        $this->assertEquals('blueprint', $blueprint->getType());
+    }
+
+    /**
+     * Assert blueprint serialization.
+     *
+     * @return void
+     */
+    public function testSerialization(): void
+    {
+        $blueprint = new Blueprint();
+        $serialization = $blueprint->serialize();
+
+        $this->assertIsArray($serialization);
+        $this->assertArrayHasKey('type', $serialization);
+        $this->assertEquals('blueprint', $serialization['type']);
     }
 }
