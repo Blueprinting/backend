@@ -6,6 +6,7 @@ use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
 use Illuminate\Http\Request;
 use Orchestra\Testbench\TestCase;
+use RuntimeException;
 
 class TextFieldTest extends TestCase
 {
@@ -45,6 +46,9 @@ class TextFieldTest extends TestCase
         $blueprint->addChild($textField);
 
         $this->assertEquals('value', $textField->getValue());
+
+        $this->expectException(RuntimeException::class);
+        $textField->setName(['[invalid name']);
     }
 
     /**
