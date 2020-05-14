@@ -2,7 +2,7 @@
 
 namespace Blueprinting\Interfaces;
 
-use Blueprinting\Blueprint;
+use Illuminate\Http\Request;
 
 interface ElementInterface
 {
@@ -21,18 +21,23 @@ interface ElementInterface
     public function getType(): string;
 
     /**
-     * Set element root.
+     * Set parent element.
      *
-     * @return Blueprint|null
+     * @return ElementInterface|null
      */
-    public function getRoot(): ?Blueprint;
+    public function getParent(): ?ElementInterface;
 
     /**
-     * Get element root.
+     * Get parent element.
      *
-     * @param Blueprint $blueprint
+     * @param ElementInterface $element
      *
      * @return self
      */
-    public function setRoot(Blueprint $blueprint): self;
+    public function setParent(ElementInterface $element): self;
+
+    /**
+     * @return Request|null
+     */
+    public function getRequest(): ?Request;
 }

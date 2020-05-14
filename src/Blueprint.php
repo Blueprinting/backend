@@ -2,10 +2,13 @@
 
 namespace Blueprinting;
 
+use Blueprinting\Traits\HasChildren;
 use Illuminate\Http\Request;
 
-class Blueprint extends ElementWithChildren
+class Blueprint extends Element
 {
+    use HasChildren;
+
     /**
      * @var Request
      */

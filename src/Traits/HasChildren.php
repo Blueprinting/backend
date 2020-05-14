@@ -2,59 +2,31 @@
 
 namespace Blueprinting\Traits;
 
+use Blueprinting\Elements;
 use Blueprinting\Interfaces\ElementInterface;
-use Illuminate\Support\Collection;
 
+/**
+ * Trait HasChildren
+ *
+ * @package Blueprinting\Traits
+ * @property-read Elements $children
+ */
 trait HasChildren
 {
     /**
-     * @var Collection
+     * @var Elements
      */
-    private Collection $children;
+    private Elements $internalChildren;
 
     /**
-     * Add a single child.
-     *
-     * @param ElementInterface $child
-     *
-     * @return self
+     * @return Elements
      */
-    public function addChild(ElementInterface $child): self
+    public function getChildrenAttribute(): Elements
     {
-        if (!isset($this->children)) {
-            $this->children = new Collection();
+        if (!isset($this->internalChildren)) {
+            $this->internalChildren = new Elements(($this instanceof ElementInterface ? $this : null));
         }
 
-        $child->setRoot($this->getRoot());
-
-        $this->children[] = $child;
-
-        return $this;
-    }
-
-    /**
-     * Add one or more children.
-     *
-     * @param array $children
-     *
-     * @return self
-     */
-    public function addChildren(array $children): self
-    {
-        foreach ($children as $child) {
-            $this->addChild($child);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get children.
-     *
-     * @return Collection|null
-     */
-    public function getChildren(): ?Collection
-    {
-        return $this->children ?? null;
+        return $this->internalChildren;
     }
 }

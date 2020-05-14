@@ -43,7 +43,7 @@ class TextFieldTest extends TestCase
 
         $this->assertEquals('default', $textField->getValue());
 
-        $blueprint->addChild($textField);
+        $blueprint->children->add($textField);
 
         $this->assertEquals('value', $textField->getValue());
 

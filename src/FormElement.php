@@ -58,10 +58,10 @@ abstract class FormElement extends Element implements FormElementInterface
     public function getValue()
     {
         if (
-            ($root = $this->getRoot()) &&
+            ($request = $this->getRequest()) &&
             ($name = $this->getName())
         ) {
-            return $root->getRequest()->input(implode('.', $name), $this->getDefaultValue());
+            return $request->input(implode('.', $name), $this->getDefaultValue());
         }
 
         return $this->getDefaultValue();

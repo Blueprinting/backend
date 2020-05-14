@@ -3,13 +3,15 @@
 namespace Blueprinting;
 
 use Blueprinting\Interfaces\ElementInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 abstract class Element implements ElementInterface
 {
     /**
-     * @var Blueprint
+     * @var ElementInterface
      */
-    private Blueprint $root;
+    private ElementInterface $parent;
 
     /**
      * Serialize element for renderer.
@@ -31,25 +33,59 @@ abstract class Element implements ElementInterface
     abstract public function getType(): string;
 
     /**
-     * Set element root.
+     * Set parent element.
      *
-     * @return Blueprint|null
+     * @return ElementInterface|null
      */
-    public function getRoot(): ?Blueprint
+    public function getParent(): ?ElementInterface
     {
-        return ($this instanceof Blueprint ? $this : $this->root ?? null);
+        return $this->parent ?? null;
     }
 
     /**
-     * Get element root.
+     * Get parent element.
      *
-     * @param Blueprint $blueprint
+     * @param ElementInterface $element
      *
      * @return self
      */
-    public function setRoot(Blueprint $blueprint): self
+    public function setParent(ElementInterface $element): self
     {
-        $this->root = $blueprint;
+        $this->parent = $element;
         return $this;
+    }
+
+    /**
+     * @return Request|null
+     */
+    public function getRequest(): ?Request
+    {
+        $parent = $this;
+        $i = 0;
+
+        do {
+            if ($parent instanceof Blueprint) {
+                return $parent->getRequest();
+            }
+
+            $parent = $parent->getParent();
+            $i++;
+        } while ($parent !== null && $i < 100);
+
+        return null;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $method = 'get' . ucfirst(Str::camel($name)) . 'Attribute';
+
+        if (method_exists($this, $method)) {
+            return $this->$method();
+        }
     }
 }
