@@ -2,9 +2,7 @@
 Delivers view scaffolding to Laravel
 
 ## Contribution
-All pull requests have to be PSR-12 compliant. PSR-12 compliance test runs on commit. If you wish to manually run PSR-12 compliance test run the followng command:
-
-``composer run-script phpcs``
+Thank you for your interest in contributing to blueprinting backend! Please fell free to open a PR. If you'd like to get in touch with the people behind Blueprinting or reach out to the community - check the Slack section below.
 
 ## Slack
 https://blueprinting.slack.com/
