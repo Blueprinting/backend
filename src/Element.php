@@ -3,6 +3,8 @@
 namespace Blueprinting;
 
 use Blueprinting\Interfaces\ElementInterface;
+use Blueprinting\Interfaces\ElementWithTemplateInterface;
+use Blueprinting\Interfaces\TemplateInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -20,9 +22,18 @@ abstract class Element implements ElementInterface
      */
     public function serialize(): array
     {
-        return [
+        $serialization = [
             'type' => $this->getType(),
         ];
+
+        if (
+            $this instanceof ElementWithTemplateInterface &&
+            ($template = $this->getTemplate())
+        ) {
+            $serialization['template'] = $template->serialize();
+        }
+
+        return $serialization;
     }
 
     /**

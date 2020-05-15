@@ -3,6 +3,7 @@
 namespace Blueprinting\Tests;
 
 use Blueprinting\Blueprint;
+use Blueprinting\Template;
 use Orchestra\Testbench\TestCase;
 
 class BlueprintTest extends TestCase
@@ -25,11 +26,29 @@ class BlueprintTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $blueprint = new Blueprint();
+        $blueprint = new Blueprint(
+            new Template('test', [
+                'name' => 'value',
+            ])
+        );
+
         $serialization = $blueprint->serialize();
 
         $this->assertIsArray($serialization);
         $this->assertArrayHasKey('type', $serialization);
         $this->assertEquals('blueprint', $serialization['type']);
+
+        // Assert template
+        $this->assertArrayHasKey('template', $serialization);
+        $this->assertIsArray($serialization['template']);
+
+        // Assert template name
+        $this->assertArrayHasKey('name', $serialization['template']);
+        $this->assertEquals('test', $serialization['template']['name']);
+
+        // Assert template params
+        $this->assertArrayHasKey('params', $serialization['template']);
+        $this->assertArrayHasKey('name', $serialization['template']['params']);
+        $this->assertEquals('value', $serialization['template']['params']['name']);
     }
 }

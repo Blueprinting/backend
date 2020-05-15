@@ -2,17 +2,33 @@
 
 namespace Blueprinting;
 
+use Blueprinting\Interfaces\ElementWithTemplateInterface;
+use Blueprinting\Interfaces\TemplateInterface;
 use Blueprinting\Traits\HasChildren;
+use Blueprinting\Traits\HasTemplate;
 use Illuminate\Http\Request;
 
-class Blueprint extends Element
+class Blueprint extends Element implements ElementWithTemplateInterface
 {
     use HasChildren;
+    use HasTemplate;
 
     /**
      * @var Request
      */
     private Request $request;
+
+    /**
+     * Blueprint constructor.
+     *
+     * @param TemplateInterface|null $template
+     */
+    public function __construct(TemplateInterface $template = null)
+    {
+        if ($template !== null) {
+            $this->setTemplate($template);
+        }
+    }
 
     /**
      * @inheritDoc
