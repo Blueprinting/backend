@@ -1,8 +1,10 @@
 <?php
 
-namespace Blueprinting\Interfaces;
+namespace Blueprinting\Interfaces\Element;
 
-interface ElementWithTemplateInterface
+use Blueprinting\Interfaces\TemplateInterface;
+
+interface WithTemplateInterface
 {
     /**
      * @return TemplateInterface|null

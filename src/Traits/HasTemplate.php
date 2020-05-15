@@ -4,11 +4,6 @@ namespace Blueprinting\Traits;
 
 use Blueprinting\Interfaces\TemplateInterface;
 
-/**
- * Trait HasChildren
- *
- * @package Blueprinting\Traits
- */
 trait HasTemplate
 {
     /**

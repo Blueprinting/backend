@@ -2,6 +2,8 @@
 
 namespace Blueprinting;
 
+use Blueprinting\Interfaces\FormElement\DisabledInterface;
+use Blueprinting\Interfaces\FormElement\ReadonlyInterface;
 use Blueprinting\Interfaces\FormElementInterface;
 use RuntimeException;
 
@@ -84,5 +86,22 @@ abstract class FormElement extends Element implements FormElementInterface
     public function getDefaultValue()
     {
         return $this->defaultValue ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize(): array
+    {
+        return array_replace(
+            parent::serialize(),
+            array_filter(
+                [
+                    'disabled' => ($this instanceof DisabledInterface ? $this->isDisabled() : null),
+                    'readonly' => ($this instanceof ReadonlyInterface ? $this->isReadonly() : null),
+                ],
+                fn($value) => $value !== null,
+            )
+        );
     }
 }
