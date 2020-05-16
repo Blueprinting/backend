@@ -6,6 +6,7 @@ use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
 use Blueprinting\Template;
 use Orchestra\Testbench\TestCase;
+use RuntimeException;
 
 class BlueprintTest extends TestCase
 {
@@ -25,31 +26,41 @@ class BlueprintTest extends TestCase
      *
      * @return void
      */
-    public function testElementsArrayAccess(): void
+    public function testElements(): void
     {
         $blueprint = new Blueprint();
         $blueprint->children[] = new TextField();
 
-        $this->assertCount(1, $blueprint->children);
+        $this->expectException(RuntimeException::class);
+        $blueprint->children[] = 0;
+
+        $blueprint->children[] = [
+            new TextField(),
+            new TextField(),
+        ];
+
+        $this->assertCount(3, $blueprint->children);
+        $this->assertNotNull($blueprint->children->get());
+        $this->assertTrue($blueprint->children[0]);
+
+        $this->expectException(RuntimeException::class);
+        $blueprint->children[3] = new TextField();
+
+        $this->assertCount(4, $blueprint->children);
     }
 
     /**
-     * Assert attributes
-     *
-     * @return void
+     * Assert collection construction during setting of a specific index
      */
-    public function testAttributes(): void
+    public function testElementsCollection(): void
     {
         $blueprint = new Blueprint();
-        $blueprint->attributes['name'] = 'value';
-        $blueprint->attributes['name2'] = 'value2';
+        $blueprint->children[3] = new TextField();
+        $this->assertCount(1, $blueprint->children);
 
-        $this->assertEquals('value', $blueprint->attributes['name']);
+        unset($blueprint->children[3]);
 
-        unset($blueprint->attributes['name']);
-
-        $this->assertNotTrue(isset($blueprint->attributes['name']));
-        $this->assertCount(1, $blueprint->attributes);
+        $this->assertCount(0, $blueprint->children);
     }
 
     /**
@@ -64,9 +75,6 @@ class BlueprintTest extends TestCase
                 'name' => 'value',
             ])
         );
-
-        $blueprint->attributes->set('name', 'value');
-        $blueprint->attributes['name2'] = 'value2';
 
         $serialization = $blueprint->serialize();
 
@@ -87,15 +95,5 @@ class BlueprintTest extends TestCase
         $this->assertArrayHasKey('params', $serialization['template']);
         $this->assertArrayHasKey('name', $serialization['template']['params']);
         $this->assertEquals('value', $serialization['template']['params']['name']);
-
-        // Assert attributes using helper methods
-        $this->assertArrayHasKey('attributes', $serialization);
-        $this->assertArrayHasKey('name', $serialization['attributes']);
-        $this->assertEquals('value', $serialization['attributes']['name']);
-
-        // Assert attributes using ArrayAccess
-        $this->assertArrayHasKey('attributes', $serialization);
-        $this->assertArrayHasKey('name2', $serialization['attributes']);
-        $this->assertEquals('value2', $serialization['attributes']['name2']);
     }
 }

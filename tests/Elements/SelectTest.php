@@ -3,12 +3,13 @@
 namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Blueprint;
+use Blueprinting\Elements\Select;
 use Blueprinting\Elements\TextField;
 use Illuminate\Http\Request;
 use Orchestra\Testbench\TestCase;
 use RuntimeException;
 
-class TextFieldTest extends TestCase
+class SelectTest extends TestCase
 {
     /**
      * Assert object
@@ -17,17 +18,27 @@ class TextFieldTest extends TestCase
      */
     public function testObject(): void
     {
-        $element = new TextField();
+        $element = new Select();
         $element->setName('name');
         $element->setLabel('text');
         $element->setReadonly();
         $element->setDisabled();
         $element->setDefaultValue('default');
 
+        $element->setOptions(
+            [
+                1 => 1,
+                2 => 2,
+            ]
+        );
+
+        $this->assertNotNull($element->getOptions());
+        $this->assertCount(2, $element->getOptions());
+
         $this->expectException(RuntimeException::class);
         $element->setName(0);
 
-        $this->assertEquals('text-field', $element->getType());
+        $this->assertEquals('select', $element->getType());
         $this->assertEquals('name', $element->getName()[0]);
         $this->assertEquals('text', $element->getLabel());
         $this->assertEquals(true, $element->isReadonly());
@@ -54,20 +65,20 @@ class TextFieldTest extends TestCase
 
         $blueprint->setRequest($request);
 
-        $textField = (new TextField())->setName(['test', 'field']);
+        $element = (new Select())->setName(['test', 'field']);
 
-        $this->assertNull($textField->getValue());
+        $this->assertNull($element->getValue());
 
-        $textField->setDefaultValue('default');
+        $element->setDefaultValue('default');
 
-        $this->assertEquals('default', $textField->getValue());
+        $this->assertEquals('default', $element->getValue());
 
-        $blueprint->children->add($textField);
+        $blueprint->children->add($element);
 
-        $this->assertEquals('value', $textField->getValue());
+        $this->assertEquals('value', $element->getValue());
 
         $this->expectException(RuntimeException::class);
-        $textField->setName(['[invalid name']);
+        $element->setName(['[invalid name']);
     }
 
     /**
@@ -77,11 +88,11 @@ class TextFieldTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $element = new TextField();
+        $element = new Select();
         $serialization = $element->serialize();
 
         $this->assertIsArray($serialization);
         $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('text-field', $serialization['type']);
+        $this->assertEquals('select', $serialization['type']);
     }
 }
