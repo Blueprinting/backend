@@ -19,3 +19,6 @@ jobs:
 
     - name: Run PHPUnit
       run: vendor/bin/phpunit
+
+    - name: Rub Codecov
+      run: bash <(curl -s https://codecov.io/bash)
