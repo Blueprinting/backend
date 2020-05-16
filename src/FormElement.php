@@ -93,15 +93,17 @@ abstract class FormElement extends Element implements FormElementInterface
      */
     public function serialize(): array
     {
+        $serialization = array_filter(
+            [
+                'disabled' => ($this instanceof DisabledInterface ? $this->isDisabled() : null),
+                'readonly' => ($this instanceof ReadonlyInterface ? $this->isReadonly() : null),
+            ],
+            fn($value) => $value !== null,
+        );
+
         return array_replace(
             parent::serialize(),
-            array_filter(
-                [
-                    'disabled' => ($this instanceof DisabledInterface ? $this->isDisabled() : null),
-                    'readonly' => ($this instanceof ReadonlyInterface ? $this->isReadonly() : null),
-                ],
-                fn($value) => $value !== null,
-            )
+            $serialization
         );
     }
 }
