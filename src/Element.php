@@ -2,17 +2,29 @@
 
 namespace Blueprinting;
 
+use Blueprinting\Element\Attributes;
+use Blueprinting\Interfaces\Element\AttributesInterface;
 use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\Element\WithTemplateInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * Class Element
+ * @package Blueprinting
+ * @property-read AttributesInterface $attributes
+ */
 abstract class Element implements ElementInterface
 {
     /**
      * @var ElementInterface
      */
     private ElementInterface $parent;
+
+    /**
+     * @var AttributesInterface
+     */
+    private AttributesInterface $internalAttributes;
 
     /**
      * Serialize element for renderer.
@@ -23,6 +35,10 @@ abstract class Element implements ElementInterface
     {
         $serialization = [
             'type' => $this->getType(),
+            'attributes' => (($attributes = $this->attributes->getAll()) ?
+                $attributes->pluck('value', 'name')->toArray() :
+                null
+            ),
         ];
 
         if (
@@ -32,7 +48,10 @@ abstract class Element implements ElementInterface
             $serialization['template'] = $template->serialize();
         }
 
-        return $serialization;
+        return array_filter(
+            $serialization,
+            fn($value) => $value !== null
+        );
     }
 
     /**
@@ -83,6 +102,18 @@ abstract class Element implements ElementInterface
         } while ($parent !== null && $i < 100);
 
         return null;
+    }
+
+    /**
+     * @return AttributesInterface
+     */
+    public function getAttributesAttribute(): AttributesInterface
+    {
+        if (!isset($this->internalAttributes)) {
+            $this->internalAttributes = new Attributes();
+        }
+
+        return $this->internalAttributes;
     }
 
     /**
