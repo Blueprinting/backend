@@ -48,6 +48,7 @@ class BlueprintTest extends TestCase
         } catch (RuntimeException $e) {
         }
 
+        $this->assertInstanceOf(TextField::class, $blueprint->children[3]);
         $this->assertCount(4, $blueprint->children);
 
         try {

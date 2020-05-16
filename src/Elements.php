@@ -77,11 +77,7 @@ class Elements implements ElementsInterface
      */
     public function offsetExists($offset)
     {
-        if (!isset($this->elements)) {
-            return false;
-        }
-
-        return isset($this->elements[$offset]);
+        return isset($this->elements, $this->elements[$offset]);
     }
 
     /**

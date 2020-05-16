@@ -78,6 +78,8 @@ class TextFieldTest extends TestCase
     public function testSerialization(): void
     {
         $element = new TextField();
+        $element->setReadonly();
+        $element->setDisabled();
         $serialization = $element->serialize();
 
         $this->assertIsArray($serialization);

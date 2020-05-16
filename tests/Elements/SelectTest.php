@@ -85,6 +85,16 @@ class SelectTest extends TestCase
     }
 
     /**
+     * Assert collection construction during adding of a new option
+     */
+    public function testOptionsCollection(): void
+    {
+        $element = new Select();
+        $element->addOption('name', 'value');
+        $this->assertCount(1, $element->getOptions());
+    }
+
+    /**
      * Assert serialization.
      *
      * @return void
