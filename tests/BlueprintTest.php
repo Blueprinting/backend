@@ -3,6 +3,7 @@
 namespace Blueprinting\Tests;
 
 use Blueprinting\Blueprint;
+use Blueprinting\Elements\TextField;
 use Blueprinting\Template;
 use Orchestra\Testbench\TestCase;
 
@@ -17,6 +18,19 @@ class BlueprintTest extends TestCase
     {
         $blueprint = new Blueprint();
         $this->assertEquals('blueprint', $blueprint->getType());
+    }
+
+    /**
+     * Assert elements array access
+     *
+     * @return void
+     */
+    public function testElementsArrayAccess(): void
+    {
+        $blueprint = new Blueprint();
+        $blueprint->children[] = new TextField();
+
+        $this->assertCount(1, $blueprint->children);
     }
 
     /**

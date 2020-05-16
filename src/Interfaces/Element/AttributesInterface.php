@@ -3,9 +3,10 @@
 namespace Blueprinting\Interfaces\Element;
 
 use ArrayAccess;
+use Countable;
 use Illuminate\Support\Collection;
 
-interface AttributesInterface extends ArrayAccess
+interface AttributesInterface extends ArrayAccess, Countable
 {
     /**
      * @param string $name

@@ -2,9 +2,11 @@
 
 namespace Blueprinting\Interfaces;
 
+use ArrayAccess;
+use Countable;
 use Illuminate\Support\Collection;
 
-interface ElementsInterface
+interface ElementsInterface extends ArrayAccess, Countable
 {
     /**
      * Add one or more elements to collection.

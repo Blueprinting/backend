@@ -9,7 +9,7 @@ use Blueprinting\Interfaces\ElementInterface;
  * Trait HasChildren
  *
  * @package Blueprinting\Traits
- * @property-read Elements $children
+ * @property Elements $children
  */
 trait HasChildren
 {

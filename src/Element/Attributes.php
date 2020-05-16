@@ -80,4 +80,12 @@ class Attributes implements AttributesInterface
             unset($this->attributes[$offset]);
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function count()
+    {
+        return (isset($this->elements) ? $this->elements->count() : 0);
+    }
 }

@@ -71,4 +71,67 @@ class Elements implements ElementsInterface
     {
         return $this->elements ?? null;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetExists($offset)
+    {
+        if (!isset($this->elements)) {
+            return false;
+        }
+
+        return isset($this->elements[$offset]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetGet($offset)
+    {
+        if (!isset($this->elements)) {
+            return null;
+        }
+
+        return $this->elements[$offset];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        if ($offset === null) {
+            $this->add($value);
+            return;
+        }
+
+        if (!($value instanceof ElementInterface)) {
+            throw new \RuntimeException('$value must be instance of ElementInterface');
+        }
+
+        if (!isset($this->elements)) {
+            $this->elements = new Collection();
+        }
+
+        $this->elements[$offset] = $value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetUnset($offset)
+    {
+        if (isset($this->elements, $this->elements[$offset])) {
+            unset($this->elements[$offset]);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count()
+    {
+        return (isset($this->elements) ? $this->elements->count() : 0);
+    }
 }
