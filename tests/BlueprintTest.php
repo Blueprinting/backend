@@ -33,6 +33,7 @@ class BlueprintTest extends TestCase
         );
 
         $blueprint->attributes->set('name', 'value');
+        $blueprint->attributes['name2'] = 'value2';
 
         $serialization = $blueprint->serialize();
 
@@ -54,9 +55,14 @@ class BlueprintTest extends TestCase
         $this->assertArrayHasKey('name', $serialization['template']['params']);
         $this->assertEquals('value', $serialization['template']['params']['name']);
 
-        // Assert attributes
+        // Assert attributes using helper methods
         $this->assertArrayHasKey('attributes', $serialization);
         $this->assertArrayHasKey('name', $serialization['attributes']);
         $this->assertEquals('value', $serialization['attributes']['name']);
+
+        // Assert attributes using ArrayAccess
+        $this->assertArrayHasKey('attributes', $serialization);
+        $this->assertArrayHasKey('name2', $serialization['attributes']);
+        $this->assertEquals('value2', $serialization['attributes']['name2']);
     }
 }

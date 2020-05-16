@@ -2,9 +2,10 @@
 
 namespace Blueprinting\Interfaces\Element;
 
+use ArrayAccess;
 use Illuminate\Support\Collection;
 
-interface AttributesInterface
+interface AttributesInterface extends ArrayAccess
 {
     /**
      * @param string $name

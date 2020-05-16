@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 /**
  * Class Element
  * @package Blueprinting
- * @property-read AttributesInterface $attributes
+ * @property AttributesInterface $attributes
  */
 abstract class Element implements ElementInterface
 {
