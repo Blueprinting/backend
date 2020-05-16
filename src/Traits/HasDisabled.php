@@ -2,8 +2,6 @@
 
 namespace Blueprinting\Traits;
 
-use Blueprinting\Interfaces\Element\DisabledInterface;
-
 trait HasDisabled
 {
     /**

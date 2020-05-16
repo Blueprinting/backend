@@ -2,6 +2,8 @@
 
 namespace Blueprinting\Interfaces\FormElement;
 
+use Illuminate\Support\Collection;
+
 interface OptionsInterface
 {
     /**
@@ -12,7 +14,15 @@ interface OptionsInterface
     public function setOptions(array $options): self;
 
     /**
-     * @return array|null
+     * @return Collection|null
      */
-    public function getOptions(): ?array;
+    public function getOptions(): ?Collection;
+
+    /**
+     * @param $key
+     * @param $value
+     *
+     * @return $this
+     */
+    public function addOption($key, $value): self;
 }

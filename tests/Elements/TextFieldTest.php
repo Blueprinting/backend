@@ -11,16 +11,30 @@ use RuntimeException;
 class TextFieldTest extends TestCase
 {
     /**
-     * Assert blueprint object
+     * Assert object
      *
      * @return void
      */
     public function testObject(): void
     {
         $element = new TextField();
+        $element->setLabel('text');
+        $element->setReadonly();
+        $element->setDisabled();
+        $element->setDefaultValue('default');
+
         $this->assertEquals('text-field', $element->getType());
+        $this->assertEquals('text', $element->getLabel());
+        $this->assertEquals(true, $element->isReadonly());
+        $this->assertEquals(true, $element->isDisabled());
+        $this->assertEquals('default', $element->getDefaultValue());
     }
 
+    /**
+     * Assert getValue()
+     *
+     * @return void
+     */
     public function testGetValue(): void
     {
         $blueprint = new Blueprint();
@@ -52,7 +66,7 @@ class TextFieldTest extends TestCase
     }
 
     /**
-     * Assert blueprint serialization.
+     * Assert serialization.
      *
      * @return void
      */
