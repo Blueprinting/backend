@@ -34,6 +34,25 @@ class BlueprintTest extends TestCase
     }
 
     /**
+     * Assert attributes
+     *
+     * @return void
+     */
+    public function testAttributes(): void
+    {
+        $blueprint = new Blueprint();
+        $blueprint->attributes['name'] = 'value';
+        $blueprint->attributes['name2'] = 'value2';
+
+        $this->assertEquals('value', $blueprint->attributes['name']);
+
+        unset($blueprint->attributes['name']);
+
+        $this->assertNotTrue(isset($blueprint->attributes['name']));
+        $this->assertCount(1, $blueprint->attributes);
+    }
+
+    /**
      * Assert blueprint serialization.
      *
      * @return void

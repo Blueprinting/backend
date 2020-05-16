@@ -16,7 +16,14 @@ class Attributes implements AttributesInterface
      */
     public function get(string $name): ?string
     {
-        return (isset($this->attributes) ? $this->attributes[$name] ?? null : null);
+        return (
+            (
+                isset($this->attributes) &&
+                ($attribute = $this->attributes->where('name', '=', $name)->first())
+            ) ?
+                $attribute['value'] :
+                null
+        );
     }
 
     /**
@@ -77,7 +84,11 @@ class Attributes implements AttributesInterface
     public function offsetUnset($offset)
     {
         if ($this->get($offset) !== null) {
-            unset($this->attributes[$offset]);
+            $this->attributes = $this->attributes->filter(
+                static function ($attribute) use ($offset) {
+                    return $attribute['name'] !== $offset;
+                }
+            )->values();
         }
     }
 
@@ -86,6 +97,6 @@ class Attributes implements AttributesInterface
      */
     public function count()
     {
-        return (isset($this->elements) ? $this->elements->count() : 0);
+        return (isset($this->attributes) ? $this->attributes->count() : 0);
     }
 }
