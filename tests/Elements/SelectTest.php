@@ -35,15 +35,18 @@ class SelectTest extends TestCase
         $this->assertNotNull($element->getOptions());
         $this->assertCount(2, $element->getOptions());
 
-        $this->expectException(RuntimeException::class);
-        $element->setName(0);
-
         $this->assertEquals('select', $element->getType());
         $this->assertEquals('name', $element->getName()[0]);
         $this->assertEquals('text', $element->getLabel());
         $this->assertEquals(true, $element->isReadonly());
         $this->assertEquals(true, $element->isDisabled());
         $this->assertEquals('default', $element->getDefaultValue());
+
+        $element->setDefaultValue(0);
+        $this->assertEquals(0, $element->getValue());
+
+        $this->expectException(RuntimeException::class);
+        $element->setName(0);
     }
 
     /**

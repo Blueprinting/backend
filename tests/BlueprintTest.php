@@ -31,9 +31,6 @@ class BlueprintTest extends TestCase
         $blueprint = new Blueprint();
         $blueprint->children[] = new TextField();
 
-        $this->expectException(RuntimeException::class);
-        $blueprint->children[] = 0;
-
         $blueprint->children[] = [
             new TextField(),
             new TextField(),
@@ -41,12 +38,15 @@ class BlueprintTest extends TestCase
 
         $this->assertCount(3, $blueprint->children);
         $this->assertNotNull($blueprint->children->get());
-        $this->assertTrue($blueprint->children[0]);
+        $this->assertTrue(isset($blueprint->children[0]));
 
         $this->expectException(RuntimeException::class);
         $blueprint->children[3] = new TextField();
 
         $this->assertCount(4, $blueprint->children);
+
+        $this->expectException(RuntimeException::class);
+        $blueprint->children[] = 0;
     }
 
     /**
