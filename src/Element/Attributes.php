@@ -67,7 +67,9 @@ class Attributes implements AttributesInterface
      */
     public function offsetGet($offset)
     {
-        return $this->get($offset);
+        if ($value = $this->get($offset)) {
+            return $value;
+        }
     }
 
     /**

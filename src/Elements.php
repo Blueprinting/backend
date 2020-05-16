@@ -89,10 +89,6 @@ class Elements implements ElementsInterface
      */
     public function offsetGet($offset)
     {
-        if (!isset($this->elements)) {
-            return null;
-        }
-
         return $this->elements[$offset];
     }
 

@@ -40,13 +40,27 @@ class BlueprintTest extends TestCase
         $this->assertNotNull($blueprint->children->get());
         $this->assertTrue(isset($blueprint->children[0]));
 
-        $this->expectException(RuntimeException::class);
-        $blueprint->children[3] = new TextField();
+        $this->assertNotTrue(isset($blueprint->children[5]));
+
+        try {
+            $blueprint->children[3] = new TextField();
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
 
         $this->assertCount(4, $blueprint->children);
 
-        $this->expectException(RuntimeException::class);
-        $blueprint->children[] = 0;
+        try {
+            $blueprint->children[] = 0;
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
+
+        try {
+            $blueprint->children[5] = 0;
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
     }
 
     /**
