@@ -22,13 +22,15 @@ class TextFieldTest extends TestCase
         $element->setLabel('text');
         $element->setReadonly();
         $element->setDisabled();
+        $element->setRequired();
         $element->setDefaultValue('default');
 
         $this->assertEquals('text-field', $element->getType());
         $this->assertEquals('name', $element->getName()[0]);
         $this->assertEquals('text', $element->getLabel());
-        $this->assertEquals(true, $element->isReadonly());
-        $this->assertEquals(true, $element->isDisabled());
+        $this->assertTrue($element->isReadonly());
+        $this->assertTrue($element->isDisabled());
+        $this->assertTrue($element->isRequired());
         $this->assertEquals('default', $element->getDefaultValue());
 
         $this->expectException(RuntimeException::class);

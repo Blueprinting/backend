@@ -23,6 +23,7 @@ class SelectTest extends TestCase
         $element->setLabel('text');
         $element->setReadonly();
         $element->setDisabled();
+        $element->setRequired();
         $element->setDefaultValue('default');
 
         $element->setOptions(
@@ -38,8 +39,9 @@ class SelectTest extends TestCase
         $this->assertEquals('select', $element->getType());
         $this->assertEquals('name', $element->getName()[0]);
         $this->assertEquals('text', $element->getLabel());
-        $this->assertEquals(true, $element->isReadonly());
-        $this->assertEquals(true, $element->isDisabled());
+        $this->assertTrue($element->isReadonly());
+        $this->assertTrue($element->isDisabled());
+        $this->assertTrue($element->isRequired());
         $this->assertEquals('default', $element->getDefaultValue());
 
         $element->setDefaultValue(0);

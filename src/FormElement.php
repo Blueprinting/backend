@@ -15,6 +15,11 @@ abstract class FormElement extends Element implements FormElementInterface
     private ?array $name;
 
     /**
+     * @var bool
+     */
+    private bool $required;
+
+    /**
      * @var mixed
      */
     private $defaultValue;
@@ -97,6 +102,7 @@ abstract class FormElement extends Element implements FormElementInterface
             [
                 'disabled' => ($this instanceof DisabledInterface ? $this->isDisabled() : null),
                 'readonly' => ($this instanceof ReadonlyInterface ? $this->isReadonly() : null),
+                'required' => $this->isRequired(),
             ],
             fn($value) => $value !== null,
         );
@@ -105,5 +111,24 @@ abstract class FormElement extends Element implements FormElementInterface
             parent::serialize(),
             $serialization
         );
+    }
+
+    /**
+     * @param bool|null $required
+     *
+     * @return $this
+     */
+    public function setRequired(bool $required = null): self
+    {
+        $this->required = $required ?? true;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required ?? false;
     }
 }

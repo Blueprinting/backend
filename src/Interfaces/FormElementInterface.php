@@ -32,4 +32,16 @@ interface FormElementInterface extends ElementInterface
      * @return mixed
      */
     public function getDefaultValue();
+
+    /**
+     * @param bool|null $required
+     *
+     * @return $this
+     */
+    public function setRequired(bool $required = null): self;
+
+    /**
+     * @return bool
+     */
+    public function isRequired(): bool;
 }
