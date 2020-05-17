@@ -33,6 +33,8 @@ class SelectTest extends TestCase
             ]
         );
 
+        $element->setMultiple();
+
         $this->assertNotNull($element->getOptions());
         $this->assertCount(2, $element->getOptions());
 
@@ -42,6 +44,7 @@ class SelectTest extends TestCase
         $this->assertTrue($element->isReadonly());
         $this->assertTrue($element->isDisabled());
         $this->assertTrue($element->isRequired());
+        $this->assertTrue($element->hasMultiple());
         $this->assertEquals('default', $element->getDefaultValue());
 
         $element->setDefaultValue(0);
@@ -70,7 +73,8 @@ class SelectTest extends TestCase
 
         $blueprint->setRequest($request);
 
-        $element = (new Select())->setName(['test', 'field']);
+        $element = (new Select())
+            ->setName(['test', 'field']);
 
         $this->assertNull($element->getValue());
 
@@ -104,10 +108,15 @@ class SelectTest extends TestCase
     public function testSerialization(): void
     {
         $element = new Select();
+        $element->setMultiple();
+
         $serialization = $element->serialize();
 
         $this->assertIsArray($serialization);
         $this->assertArrayHasKey('type', $serialization);
         $this->assertEquals('select', $serialization['type']);
+
+        $this->assertArrayHasKey('multiple', $serialization);
+        $this->assertTrue($serialization['multiple'], $serialization['multiple']);
     }
 }

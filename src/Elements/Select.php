@@ -24,6 +24,11 @@ class Select extends FormElement implements
     use HasOptions;
 
     /**
+     * @var bool
+     */
+    private bool $multiple;
+
+    /**
      * @inheritDoc
      */
     public function getType(): string
@@ -43,5 +48,37 @@ class Select extends FormElement implements
         }
 
         return $value;
+    }
+
+    /**
+     * @param bool $multiple
+     *
+     * @return $this
+     */
+    public function setMultiple(bool $multiple = null): self
+    {
+        $this->multiple = $multiple ?? true;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMultiple(): bool
+    {
+        return $this->multiple ?? false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize(): array
+    {
+        return array_replace(
+            parent::serialize(),
+            [
+                'multiple' => $this->hasMultiple(),
+            ]
+        );
     }
 }
