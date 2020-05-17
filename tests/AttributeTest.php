@@ -25,6 +25,9 @@ class AttributeTest extends TestCase
 
         $this->assertNotTrue(isset($blueprint->attributes['name']));
         $this->assertCount(1, $blueprint->attributes);
+
+        $blueprint->setAttribute('name3', 'value3');
+        $this->assertEquals('value3', $blueprint->getAttribute('name3'));
     }
 
     /**

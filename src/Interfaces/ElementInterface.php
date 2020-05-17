@@ -40,4 +40,19 @@ interface ElementInterface
      * @return Request|null
      */
     public function getRequest(): ?Request;
+
+    /**
+     * @param string $name
+     *
+     * @return string|null
+     */
+    public function getAttribute(string $name): ?string;
+
+    /**
+     * @param string $name
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setAttribute(string $name, string $value): self;
 }

@@ -117,6 +117,28 @@ abstract class Element implements ElementInterface
     }
 
     /**
+     * @param string $name
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setAttribute(string $name, string $value): self
+    {
+        $this->attributes->set($name, $value);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string|null
+     */
+    public function getAttribute(string $name): ?string
+    {
+        return $this->attributes->get($name);
+    }
+
+    /**
      * @param $name
      *
      * @return mixed
