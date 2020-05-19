@@ -27,6 +27,11 @@ abstract class Element implements ElementInterface
     private AttributesInterface $internalAttributes;
 
     /**
+     * @var string[]
+     */
+    private array $classNames;
+
+    /**
      * Serialize element for renderer.
      *
      * @return array
@@ -39,6 +44,7 @@ abstract class Element implements ElementInterface
                 $attributes->pluck('value', 'name')->toArray() :
                 null
             ),
+            'classNames' => $this->getClassNames(),
         ];
 
         if (
@@ -136,6 +142,44 @@ abstract class Element implements ElementInterface
     public function getAttribute(string $name): ?string
     {
         return $this->attributes->get($name);
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return $this
+     */
+    public function addClassName(string $className): self
+    {
+        if (!isset($this->classNames)) {
+            $this->classNames = [];
+        }
+
+        $this->classNames[] = $className;
+
+        return $this;
+    }
+
+    /**
+     * @param array $classNames
+     *
+     * @return $this
+     */
+    public function addClassNames(array $classNames): self
+    {
+        foreach ($classNames as $className) {
+            $this->addClassName($className);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string[]|null
+     */
+    public function getClassNames(): ?array
+    {
+        return $this->classNames ?? null;
     }
 
     /**

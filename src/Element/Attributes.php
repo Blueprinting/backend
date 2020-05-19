@@ -19,7 +19,7 @@ class Attributes implements AttributesInterface
         return (
             (
                 isset($this->attributes) &&
-                ($attribute = $this->attributes->where('name', '=', $name)->first())
+                ($attribute = $this->attributes->firstWhere('name', '=', $name))
             ) ?
                 $attribute['value'] :
                 null

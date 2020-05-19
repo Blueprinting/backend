@@ -55,4 +55,23 @@ interface ElementInterface
      * @return $this
      */
     public function setAttribute(string $name, string $value): self;
+
+    /**
+     * @param string $className
+     *
+     * @return $this
+     */
+    public function addClassName(string $className): self;
+
+    /**
+     * @param array $classNames
+     *
+     * @return $this
+     */
+    public function addClassNames(array $classNames): self;
+
+    /**
+     * @return string[]|null
+     */
+    public function getClassNames(): ?array;
 }

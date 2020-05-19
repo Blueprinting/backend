@@ -19,6 +19,17 @@ class BlueprintTest extends TestCase
     {
         $blueprint = new Blueprint();
         $this->assertEquals('blueprint', $blueprint->getType());
+
+        $blueprint->addClassName('className1');
+        $blueprint->addClassNames(['className2', 'className3']);
+
+        $classNames = $blueprint->getClassNames();
+
+        $this->assertNotEmpty($classNames);
+        $this->assertIsArray($classNames);
+        $this->assertContains('className1', $classNames);
+        $this->assertContains('className2', $classNames);
+        $this->assertContains('className3', $classNames);
     }
 
     /**
@@ -91,6 +102,8 @@ class BlueprintTest extends TestCase
             ])
         );
 
+        $blueprint->addClassName('className1');
+
         $serialization = $blueprint->serialize();
 
         // Assert base serialization
@@ -110,5 +123,10 @@ class BlueprintTest extends TestCase
         $this->assertArrayHasKey('params', $serialization['template']);
         $this->assertArrayHasKey('name', $serialization['template']['params']);
         $this->assertEquals('value', $serialization['template']['params']['name']);
+
+        // Assert classNames
+        $this->assertArrayHasKey('classNames', $serialization);
+        $this->assertIsArray($serialization['classNames']);
+        $this->assertContains('className1', $serialization['classNames']);
     }
 }
