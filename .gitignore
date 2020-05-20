@@ -3,4 +3,3 @@ vendor
 composer.lock
 phpunit.xml
 clover.xml
-coverage.xml
