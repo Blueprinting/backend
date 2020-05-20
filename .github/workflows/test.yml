@@ -17,8 +17,6 @@ jobs:
     - name: Validate that code meets PSR12 standard
       run: composer run-script phpcs
 
-    - uses: actions/checkout@master
-
     - name: Run PHPUnit
       run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
