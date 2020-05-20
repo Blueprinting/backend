@@ -17,11 +17,13 @@ jobs:
     - name: Validate that code meets PSR12 standard
       run: composer run-script phpcs
 
+    - uses: actions/checkout@master
+
     - name: Run PHPUnit
       run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v1
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
         fail_ci_if_error: true
