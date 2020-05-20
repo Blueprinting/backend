@@ -2,13 +2,16 @@
 
 namespace Blueprinting;
 
+use Blueprinting\Interfaces\Element\WithChildren;
 use Blueprinting\Interfaces\Element\WithTemplateInterface;
 use Blueprinting\Interfaces\TemplateInterface;
 use Blueprinting\Traits\HasChildren;
 use Blueprinting\Traits\HasTemplate;
 use Illuminate\Http\Request;
 
-class Blueprint extends Element implements WithTemplateInterface
+class Blueprint extends Element implements
+    WithTemplateInterface,
+    WithChildren
 {
     use HasChildren;
     use HasTemplate;

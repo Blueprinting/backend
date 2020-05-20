@@ -23,4 +23,9 @@ interface ElementsInterface extends ArrayAccess, Countable
      * @return Collection|null
      */
     public function get(): ?Collection;
+
+    /**
+     * @return array|null
+     */
+    public function serialize(): ?array;
 }

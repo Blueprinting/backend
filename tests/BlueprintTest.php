@@ -103,6 +103,7 @@ class BlueprintTest extends TestCase
         );
 
         $blueprint->addClassName('className1');
+        $blueprint->children[] = new TextField();
 
         $serialization = $blueprint->serialize();
 
@@ -128,5 +129,10 @@ class BlueprintTest extends TestCase
         $this->assertArrayHasKey('classNames', $serialization);
         $this->assertIsArray($serialization['classNames']);
         $this->assertContains('className1', $serialization['classNames']);
+
+        // Assert children
+        $this->assertArrayHasKey('children', $serialization);
+        $this->assertNotEmpty($serialization['children']);
+        $this->assertIsArray($serialization['children']);
     }
 }

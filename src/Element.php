@@ -4,6 +4,7 @@ namespace Blueprinting;
 
 use Blueprinting\Element\Attributes;
 use Blueprinting\Interfaces\Element\AttributesInterface;
+use Blueprinting\Interfaces\Element\WithChildren;
 use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\Element\WithTemplateInterface;
 use Illuminate\Http\Request;
@@ -52,6 +53,10 @@ abstract class Element implements ElementInterface
             ($template = $this->getTemplate())
         ) {
             $serialization['template'] = $template->serialize();
+        }
+
+        if ($this instanceof WithChildren) {
+            $serialization['children'] = $this->getChildren()->serialize();
         }
 
         return array_filter(

@@ -23,6 +23,14 @@ trait HasChildren
      */
     public function getChildrenAttribute(): Elements
     {
+        return $this->getChildren();
+    }
+
+    /**
+     * @return Elements
+     */
+    public function getChildren(): Elements
+    {
         if (!isset($this->internalChildren)) {
             $this->internalChildren = new Elements(($this instanceof ElementInterface ? $this : null));
         }

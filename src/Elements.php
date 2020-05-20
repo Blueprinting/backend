@@ -126,4 +126,20 @@ class Elements implements ElementsInterface
     {
         return (isset($this->elements) ? $this->elements->count() : 0);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize(): ?array
+    {
+        if ($children = $this->get()) {
+            return $children->map(
+                static function (ElementInterface $element) {
+                    return $element->serialize();
+                }
+            )->toArray();
+        }
+
+        return null;
+    }
 }
