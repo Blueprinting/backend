@@ -20,6 +20,9 @@ jobs:
     - name: Run PHPUnit
       run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
+    - name: test ls
+      run: ls -la
+
     - uses: actions/checkout@master
     - uses: codecov/codecov-action@v1
       with:
