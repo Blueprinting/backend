@@ -4,6 +4,7 @@ namespace Blueprinting\Traits;
 
 use Blueprinting\Elements;
 use Blueprinting\Interfaces\ElementInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Trait HasChildren
@@ -36,5 +37,45 @@ trait HasChildren
         }
 
         return $this->internalChildren;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetExists($offset)
+    {
+        return $this->getChildren()->offsetExists($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetGet($offset)
+    {
+        return $this->getChildren()->offsetGet($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->getChildren()->offsetSet($offset, $value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetUnset($offset)
+    {
+        $this->getChildren()->offsetUnset($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count()
+    {
+        return $this->getChildren()->count();
     }
 }

@@ -76,6 +76,48 @@ class BlueprintTest extends TestCase
     }
 
     /**
+     * Assert elements array access
+     *
+     * @return void
+     */
+    public function testChildren(): void
+    {
+        $blueprint = new Blueprint();
+        $blueprint[] = new TextField();
+
+        $blueprint[] = [
+            new TextField(),
+            new TextField(),
+        ];
+
+        $this->assertCount(3, $blueprint);
+        $this->assertTrue(isset($blueprint[0]));
+
+        $this->assertNotTrue(isset($blueprint[5]));
+
+        try {
+            $blueprint[3] = new TextField();
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
+
+        $this->assertInstanceOf(TextField::class, $blueprint[3]);
+        $this->assertCount(4, $blueprint);
+
+        try {
+            $blueprint[] = 0;
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
+
+        try {
+            $blueprint[5] = 0;
+            $this->fail('RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+        }
+    }
+
+    /**
      * Assert collection construction during setting of a specific index
      */
     public function testElementsCollection(): void

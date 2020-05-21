@@ -2,9 +2,11 @@
 
 namespace Blueprinting\Interfaces\Element;
 
+use ArrayAccess;
+use Countable;
 use Blueprinting\Interfaces\ElementsInterface;
 
-interface WithChildren
+interface WithChildren extends ArrayAccess, Countable
 {
     /**
      * @return ElementsInterface
