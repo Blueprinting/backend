@@ -115,6 +115,10 @@ class BlueprintTest extends TestCase
             $this->fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
+
+        unset($blueprint[0]);
+
+        $this->assertNotTrue(isset($blueprint[0]));
     }
 
     /**
