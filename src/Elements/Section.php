@@ -136,6 +136,8 @@ class Section extends Element implements WithChildren
     {
         $serialization = parent::serialize();
         $serialization['toolbar'] = $this->toolbar->serialize();
+        $serialization['title'] = $this->getTitle();
+        $serialization['description'] = $this->getDescription();
 
         return array_filter(
             $serialization,

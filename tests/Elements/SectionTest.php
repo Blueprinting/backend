@@ -56,5 +56,15 @@ class SectionTest extends TestCase
         $this->assertArrayHasKey('toolbar', $serialization);
         $this->assertIsArray($serialization['toolbar']);
         $this->assertNotEmpty($serialization['toolbar']);
+
+        // Assert title
+        $this->assertArrayHasKey('title', $serialization);
+        $this->assertIsString($serialization['title']);
+        $this->assertNotEmpty($serialization['title']);
+
+        // Assert description
+        $this->assertArrayHasKey('description', $serialization);
+        $this->assertIsString($serialization['description']);
+        $this->assertNotEmpty($serialization['description']);
     }
 }
