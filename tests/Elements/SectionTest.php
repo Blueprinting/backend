@@ -23,6 +23,12 @@ class SectionTest extends TestCase
         $this->assertCount(1, $element->toolbar);
         $this->assertEquals('title', $element->getTitle());
         $this->assertEquals('description', $element->getDescription());
+
+        $element->setTitle('title', null, false);
+        $element->setDescription('description', null, false);
+
+        $this->assertEquals('title', $element->getTitle());
+        $this->assertEquals('description', $element->getDescription());
     }
 
     /**

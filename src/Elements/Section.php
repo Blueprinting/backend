@@ -70,7 +70,7 @@ class Section extends Element implements WithChildren
      *
      * @return $this
      */
-    public function setTitle(string $title, array $replacements = [], bool $translate = null): self
+    public function setTitle(string $title, array $replacements = null, bool $translate = null): self
     {
         $this->title = ($translate || $translate === null ? (string)__($title, $replacements ?? []) : $title);
         return $this;
@@ -91,7 +91,7 @@ class Section extends Element implements WithChildren
      *
      * @return $this
      */
-    public function setDescription(string $description, array $replacements = [], bool $translate = null): self
+    public function setDescription(string $description, array $replacements = null, bool $translate = null): self
     {
         $this->description = ($translate || $translate === null ?
             (string)__($description, $replacements ?? []) :
@@ -134,16 +134,12 @@ class Section extends Element implements WithChildren
      */
     public function serialize(): array
     {
-        $serialization = [
-            'toolbar' => $this->toolbar->serialize(),
-        ];
+        $serialization = parent::serialize();
+        $serialization['toolbar'] = $this->toolbar->serialize();
 
-        return array_replace(
-            parent::serialize(),
-            array_filter(
-                $serialization,
-                fn($value) => $value !== null
-            )
+        return array_filter(
+            $serialization,
+            fn($value) => $value !== null
         );
     }
 }
