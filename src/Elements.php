@@ -21,12 +21,12 @@ class Elements implements ElementsInterface
     /**
      * Elements constructor.
      *
-     * @param ElementInterface|null $element
+     * @param ElementInterface|null $parent
      */
-    public function __construct(ElementInterface $element = null)
+    public function __construct(ElementInterface $parent = null)
     {
-        if ($element !== null) {
-            $this->parent = $element;
+        if ($parent !== null) {
+            $this->parent = $parent;
         }
     }
 

@@ -33,39 +33,6 @@ abstract class Element implements ElementInterface
     private array $classNames;
 
     /**
-     * Serialize element for renderer.
-     *
-     * @return array
-     */
-    public function serialize(): array
-    {
-        $serialization = [
-            'type' => $this->getType(),
-            'attributes' => (($attributes = $this->attributes->getAll()) ?
-                $attributes->pluck('value', 'name')->toArray() :
-                null
-            ),
-            'classNames' => $this->getClassNames(),
-        ];
-
-        if (
-            $this instanceof WithTemplateInterface &&
-            ($template = $this->getTemplate())
-        ) {
-            $serialization['template'] = $template->serialize();
-        }
-
-        if ($this instanceof WithChildren) {
-            $serialization['children'] = $this->getChildren()->serialize();
-        }
-
-        return array_filter(
-            $serialization,
-            fn($value) => $value !== null
-        );
-    }
-
-    /**
      * Get element type. Used by renderer.
      *
      * @return string
@@ -185,6 +152,39 @@ abstract class Element implements ElementInterface
     public function getClassNames(): ?array
     {
         return $this->classNames ?? null;
+    }
+
+    /**
+     * Serialize element for renderer.
+     *
+     * @return array
+     */
+    public function serialize(): array
+    {
+        $serialization = [
+            'type' => $this->getType(),
+            'attributes' => (($attributes = $this->attributes->getAll()) ?
+                $attributes->pluck('value', 'name')->toArray() :
+                null
+            ),
+            'classNames' => $this->getClassNames(),
+        ];
+
+        if (
+            $this instanceof WithTemplateInterface &&
+            ($template = $this->getTemplate())
+        ) {
+            $serialization['template'] = $template->serialize();
+        }
+
+        if ($this instanceof WithChildren) {
+            $serialization['children'] = $this->getChildren()->serialize();
+        }
+
+        return array_filter(
+            $serialization,
+            fn($value) => $value !== null
+        );
     }
 
     /**
