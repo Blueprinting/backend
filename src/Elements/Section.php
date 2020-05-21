@@ -4,15 +4,20 @@ namespace Blueprinting\Elements;
 
 use Blueprinting\Element;
 use Blueprinting\Elements;
+use Blueprinting\Interfaces\Element\WithChildren;
+use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\ElementsInterface;
+use Blueprinting\Traits\HasChildren;
 
 /**
  * Class Section
  * @package Blueprinting\Elements
  * @property ElementsInterface $toolbar
  */
-class Section extends Element
+class Section extends Element implements WithChildren
 {
+    use HasChildren;
+
     /**
      * @var string
      */
@@ -27,6 +32,28 @@ class Section extends Element
      * @var ElementsInterface
      */
     private ElementsInterface $internalToolbar;
+
+    /**
+     * Section constructor.
+     *
+     * @param string|null $title
+     * @param string|null $description
+     * @param ElementInterface|ElementInterface[]|null $elements
+     */
+    public function __construct(string $title = null, string $description = null, $elements = null)
+    {
+        if ($title !== null) {
+            $this->setTitle($title);
+        }
+
+        if ($description !== null) {
+            $this->setDescription($description);
+        }
+
+        if ($elements !== null) {
+            $this->getChildren()->add($elements);
+        }
+    }
 
     /**
      * @inheritDoc
@@ -107,12 +134,14 @@ class Section extends Element
      */
     public function serialize(): array
     {
+        $serialization = [
+            'toolbar' => $this->toolbar->serialize(),
+        ];
+
         return array_replace(
             parent::serialize(),
             array_filter(
-                [
-                    'toolbar' => $this->toolbar->serialize(),
-                ],
+                $serialization,
                 fn($value) => $value !== null
             )
         );
