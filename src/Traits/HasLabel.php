@@ -18,7 +18,7 @@ trait HasLabel
      */
     public function setLabel(string $text, array $replacement = null, bool $translate = null): self
     {
-        $this->label = ($translate ? (string)__($text, $replacement ?? []) : $text);
+        $this->label = ($translate || $translate === null ? (string)__($text, $replacement ?? []) : $text);
         return $this;
     }
 
