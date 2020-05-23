@@ -8,9 +8,9 @@ interface TemplateInterface
      * TemplateInterface constructor.
      *
      * @param string $name
-     * @param array $params
+     * @param array $params|null
      */
-    public function __construct(string $name, array $params);
+    public function __construct(string $name, array $params = null);
 
     /**
      * @return string|null
