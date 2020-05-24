@@ -17,9 +17,9 @@ class SelectTest extends TestCase
      */
     public function testObject(): void
     {
-        $element = new Select();
+        $element = new Select('name', 'label');
         $element->setName('name');
-        $element->setLabel('text');
+        $element->setLabel('label');
         $element->setReadonly();
         $element->setDisabled();
         $element->setRequired();
@@ -39,7 +39,7 @@ class SelectTest extends TestCase
 
         $this->assertEquals('select', $element->getType());
         $this->assertEquals('name', $element->getName()[0]);
-        $this->assertEquals('text', $element->getLabel());
+        $this->assertEquals('label', $element->getLabel());
         $this->assertTrue($element->isReadonly());
         $this->assertTrue($element->isDisabled());
         $this->assertTrue($element->isRequired());
