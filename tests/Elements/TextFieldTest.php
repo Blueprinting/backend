@@ -17,7 +17,7 @@ class TextFieldTest extends TestCase
      */
     public function testObject(): void
     {
-        $element = new TextField();
+        $element = new TextField('name', 'label');
         $element->setName('name');
         $element->setLabel('text');
         $element->setReadonly();

@@ -27,6 +27,17 @@ abstract class FormElement extends Element implements FormElementInterface
     private $defaultValue;
 
     /**
+     * FormElement constructor.
+     * @param null $name
+     */
+    public function __construct($name = null)
+    {
+        if ($name !== null) {
+            $this->setName($name);
+        }
+    }
+
+    /**
      * @param string[]|string $name
      *
      * @return $this

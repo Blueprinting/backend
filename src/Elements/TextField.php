@@ -20,6 +20,21 @@ class TextField extends FormElement implements
     use HasLabel;
 
     /**
+     * TextField constructor.
+     *
+     * @param null $name
+     * @param string|null $label
+     */
+    public function __construct($name = null, string $label = null)
+    {
+        parent::__construct($name);
+
+        if ($label !== null) {
+            $this->setLabel($label);
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function getType(): string

@@ -26,6 +26,21 @@ class Select extends FormElement implements
     use HasOptions;
 
     /**
+     * Select constructor.
+     *
+     * @param null $name
+     * @param string|null $label
+     */
+    public function __construct($name = null, string $label = null)
+    {
+        parent::__construct($name);
+
+        if ($label !== null) {
+            $this->setLabel($label);
+        }
+    }
+
+    /**
      * @var bool
      */
     private bool $multiple;
