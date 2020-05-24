@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blueprinting;
 
 use Blueprinting\Interfaces\FormElement\DisabledInterface;
@@ -64,14 +66,16 @@ abstract class FormElement extends Element implements FormElementInterface
      */
     public function getValue()
     {
+        $defaultValue = $this->getDefaultValue();
+
         if (
             ($request = $this->getRequest()) &&
             ($name = $this->getName())
         ) {
-            return $request->input(implode('.', $name), $this->getDefaultValue());
+            return $request->input(implode('.', $name), $defaultValue);
         }
 
-        return $this->getDefaultValue();
+        return $defaultValue;
     }
 
     /**

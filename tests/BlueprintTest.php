@@ -123,6 +123,8 @@ class BlueprintTest extends TestCase
 
     /**
      * Assert collection construction during setting of a specific index
+     *
+     * @return void
      */
     public function testElementsCollection(): void
     {

@@ -5,6 +5,7 @@ namespace Blueprinting;
 use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\ElementsInterface;
 use Illuminate\Support\Collection;
+use RuntimeException;
 
 class Elements implements ElementsInterface
 {
@@ -44,7 +45,7 @@ class Elements implements ElementsInterface
         }
 
         if (!($element instanceof ElementInterface) && !is_array($element)) {
-            throw new \RuntimeException('$element must be either instance of ElementInterface or an array');
+            throw new RuntimeException('$element must be either instance of ElementInterface or an array');
         }
 
         if ($element instanceof ElementInterface) {
@@ -99,7 +100,7 @@ class Elements implements ElementsInterface
         }
 
         if (!($value instanceof ElementInterface)) {
-            throw new \RuntimeException('$value must be instance of ElementInterface');
+            throw new RuntimeException('$value must be instance of ElementInterface');
         }
 
         if (!isset($this->elements)) {
@@ -114,7 +115,7 @@ class Elements implements ElementsInterface
      */
     public function offsetUnset($offset)
     {
-        if (isset($this->elements, $this->elements[$offset])) {
+        if (isset($this->elements[$offset])) {
             unset($this->elements[$offset]);
         }
     }
