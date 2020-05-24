@@ -5,6 +5,7 @@ namespace Blueprinting\Tests;
 use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
 use Blueprinting\Template;
+use JsonException;
 use Orchestra\Testbench\TestCase;
 use RuntimeException;
 
@@ -141,6 +142,8 @@ class BlueprintTest extends TestCase
      * Assert blueprint serialization.
      *
      * @return void
+     *
+     * @throws JsonException
      */
     public function testSerialization(): void
     {
@@ -154,6 +157,44 @@ class BlueprintTest extends TestCase
         $blueprint->children[] = new TextField();
 
         $serialization = $blueprint->serialize();
+
+        // Assert base serialization
+        $this->assertIsArray($serialization);
+        $this->assertArrayHasKey('type', $serialization);
+        $this->assertEquals('blueprint', $serialization['type']);
+
+        // Assert template
+        $this->assertArrayHasKey('template', $serialization);
+        $this->assertIsArray($serialization['template']);
+
+        // Assert template name
+        $this->assertArrayHasKey('name', $serialization['template']);
+        $this->assertEquals('test', $serialization['template']['name']);
+
+        // Assert template params
+        $this->assertArrayHasKey('params', $serialization['template']);
+        $this->assertArrayHasKey('name', $serialization['template']['params']);
+        $this->assertEquals('value', $serialization['template']['params']['name']);
+
+        // Assert classNames
+        $this->assertArrayHasKey('classNames', $serialization);
+        $this->assertIsArray($serialization['classNames']);
+        $this->assertContains('className1', $serialization['classNames']);
+
+        // Assert children
+        $this->assertArrayHasKey('children', $serialization);
+        $this->assertNotEmpty($serialization['children']);
+        $this->assertIsArray($serialization['children']);
+
+        $serialization = json_decode(
+            json_encode(
+                $blueprint,
+                JSON_THROW_ON_ERROR
+            ),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         // Assert base serialization
         $this->assertIsArray($serialization);
