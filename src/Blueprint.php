@@ -8,10 +8,13 @@ use Blueprinting\Interfaces\TemplateInterface;
 use Blueprinting\Traits\HasChildren;
 use Blueprinting\Traits\HasTemplate;
 use Illuminate\Http\Request;
+use JsonException;
+use JsonSerializable;
 
 class Blueprint extends Element implements
     WithTemplateInterface,
-    WithChildren
+    WithChildren,
+    JsonSerializable
 {
     use HasChildren;
     use HasTemplate;
@@ -58,5 +61,13 @@ class Blueprint extends Element implements
     {
         $this->request = $request;
         return $this;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->serialize();
     }
 }

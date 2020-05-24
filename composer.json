@@ -13,7 +13,8 @@
     "require": {
         "php": "^7.4",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
