@@ -4,4 +4,4 @@ Thank you for your interest in contributing to blueprinting backend! Please fell
 
 ## Standards
 
-Blueprinting backend is PSR12 complient - PRs should be as well. Github actions should already validate this. Please also try keep your code coverage rating at 100% on PRs.
+Blueprinting backend is PSR12 compliant - PRs should be as well. Github actions should already validate this. Please also try keep your code coverage rating at 100% on PRs.
