@@ -1,5 +1,5 @@
 # Blueprinting
-Delivers view scaffolding to Laravel
+Framework agnostic view scaffolding
 
 ## Contribution
 Thank you for your interest in contributing to blueprinting backend! Please fell free to open a PR. If you'd like to get in touch with the people behind Blueprinting or reach out to the community - check the Slack section below.
