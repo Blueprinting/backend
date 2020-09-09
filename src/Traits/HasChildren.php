@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blueprinting\Traits;
 
 use Blueprinting\Elements;
 use Blueprinting\Interfaces\ElementInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Trait HasChildren

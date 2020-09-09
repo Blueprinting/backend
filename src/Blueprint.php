@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blueprinting;
 
 use Blueprinting\Interfaces\Element\WithChildren;
@@ -8,7 +10,6 @@ use Blueprinting\Interfaces\TemplateInterface;
 use Blueprinting\Traits\HasChildren;
 use Blueprinting\Traits\HasTemplate;
 use Illuminate\Http\Request;
-use JsonException;
 use JsonSerializable;
 
 class Blueprint extends Element implements
