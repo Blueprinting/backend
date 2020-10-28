@@ -15,7 +15,7 @@ interface ElementsInterface extends ArrayAccess, Countable
      *
      * @param ElementInterface|ElementInterface[] $element
      *
-     * @return self
+     * @return static
      */
     public function add($element): self;
 

@@ -41,14 +41,18 @@ trait HasChildren
     }
 
     /**
+     * @param mixed $offset
+     * @return bool
      * @inheritDoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->getChildren()->offsetExists($offset);
     }
 
     /**
+     * @param mixed $offset
+     * @return mixed
      * @inheritDoc
      */
     public function offsetGet($offset)
@@ -57,17 +61,20 @@ trait HasChildren
     }
 
     /**
+     * @param mixed $offset
+     * @param mixed $value
      * @inheritDoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->getChildren()->offsetSet($offset, $value);
     }
 
     /**
+     * @param mixed $offset
      * @inheritDoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->getChildren()->offsetUnset($offset);
     }
@@ -75,7 +82,7 @@ trait HasChildren
     /**
      * @inheritDoc
      */
-    public function count()
+    public function count(): int
     {
         return $this->getChildren()->count();
     }

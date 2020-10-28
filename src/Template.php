@@ -74,7 +74,7 @@ class Template implements TemplateInterface
                 'name' => $this->getName(),
                 'params' => $this->getParams(),
             ],
-            fn($value) => $value !== null
+            static fn($value) => $value !== null
         );
     }
 }

@@ -46,10 +46,6 @@ class Elements implements ElementsInterface
             $this->elements = new Collection();
         }
 
-        if (!($element instanceof ElementInterface) && !is_array($element)) {
-            throw new RuntimeException('$element must be either instance of ElementInterface or an array');
-        }
-
         if ($element instanceof ElementInterface) {
             if (isset($this->parent)) {
                 $element->setParent($this->parent);
@@ -60,6 +56,8 @@ class Elements implements ElementsInterface
             foreach ($element as $childElement) {
                 $this->add($childElement);
             }
+        } else {
+            throw new RuntimeException('$element must be either instance of ElementInterface or an array');
         }
 
         return $this;
@@ -76,14 +74,18 @@ class Elements implements ElementsInterface
     }
 
     /**
+     * @param mixed $offset
+     * @return bool
      * @inheritDoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
-        return isset($this->elements, $this->elements[$offset]);
+        return isset($this->elements[$offset]);
     }
 
     /**
+     * @param mixed $offset
+     * @return mixed
      * @inheritDoc
      */
     public function offsetGet($offset)
@@ -92,9 +94,11 @@ class Elements implements ElementsInterface
     }
 
     /**
+     * @param mixed $offset
+     * @param mixed $value
      * @inheritDoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
             $this->add($value);
@@ -113,9 +117,10 @@ class Elements implements ElementsInterface
     }
 
     /**
+     * @param mixed $offset
      * @inheritDoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (isset($this->elements[$offset])) {
             unset($this->elements[$offset]);
@@ -123,9 +128,9 @@ class Elements implements ElementsInterface
     }
 
     /**
-     * @inheritDoc
+     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return (isset($this->elements) ? $this->elements->count() : 0);
     }

@@ -12,9 +12,7 @@ class Attributes implements AttributesInterface
     private Collection $attributes;
 
     /**
-     * @param string $name
-     *
-     * @return string|null
+     * @inheritDoc
      */
     public function get(string $name): ?string
     {
@@ -29,7 +27,7 @@ class Attributes implements AttributesInterface
     }
 
     /**
-     * @return Collection|null
+     * @inheritDoc
      */
     public function getAll(): ?Collection
     {
@@ -37,10 +35,7 @@ class Attributes implements AttributesInterface
     }
 
     /**
-     * @param string $name
-     * @param string $value
-     *
-     * @return $this
+     * @inheritDoc
      */
     public function set(string $name, string $value): self
     {
@@ -57,35 +52,40 @@ class Attributes implements AttributesInterface
     }
 
     /**
+     * @param mixed $offset
+     * @return bool
      * @inheritDoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->get($offset) !== null;
     }
 
     /**
+     * @param mixed $offset
+     * @return mixed
      * @inheritDoc
      */
     public function offsetGet($offset)
     {
-        if ($value = $this->get($offset)) {
-            return $value;
-        }
+        return $this->get($offset);
     }
 
     /**
+     * @param mixed $offset
+     * @param mixed $value
      * @inheritDoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
     /**
+     * @param mixed $offset
      * @inheritDoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if ($this->get($offset) !== null) {
             $this->attributes = $this->attributes->filter(
@@ -97,9 +97,9 @@ class Attributes implements AttributesInterface
     }
 
     /**
-     * @inheritDoc
+     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return (isset($this->attributes) ? $this->attributes->count() : 0);
     }

@@ -9,8 +9,7 @@ use Blueprinting\Interfaces\Element\AttributesInterface;
 use Blueprinting\Interfaces\Element\WithChildren;
 use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\Element\WithTemplateInterface;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class Element
@@ -56,7 +55,7 @@ abstract class Element implements ElementInterface
      *
      * @param ElementInterface $element
      *
-     * @return self
+     * @return static
      */
     public function setParent(ElementInterface $element): self
     {
@@ -65,9 +64,9 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @return Request|null
+     * @return RequestInterface|null
      */
-    public function getRequest(): ?Request
+    public function getRequest(): ?RequestInterface
     {
         $parent = $this;
         $i = 0;
@@ -100,7 +99,7 @@ abstract class Element implements ElementInterface
      * @param string $name
      * @param string $value
      *
-     * @return $this
+     * @return static
      */
     public function setAttribute(string $name, string $value): self
     {
@@ -121,7 +120,7 @@ abstract class Element implements ElementInterface
     /**
      * @param string $className
      *
-     * @return $this
+     * @return static
      */
     public function addClassName(string $className): self
     {
@@ -135,9 +134,9 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @param array $classNames
+     * @param string[] $classNames
      *
-     * @return $this
+     * @return static
      */
     public function addClassNames(array $classNames): self
     {
@@ -185,18 +184,18 @@ abstract class Element implements ElementInterface
 
         return array_filter(
             $serialization,
-            fn($value) => $value !== null
+            static fn($value) => $value !== null
         );
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name)
     {
-        $method = 'get' . ucfirst(Str::camel($name)) . 'Attribute';
+        $method = 'get' . ucfirst($name) . 'Attribute';
 
         if (method_exists($this, $method)) {
             return $this->$method();

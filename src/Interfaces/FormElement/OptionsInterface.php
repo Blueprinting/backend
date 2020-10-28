@@ -11,7 +11,7 @@ interface OptionsInterface
     /**
      * @param array $options
      *
-     * @return $this
+     * @return static
      */
     public function setOptions(array $options): self;
 
@@ -21,10 +21,10 @@ interface OptionsInterface
     public function getOptions(): ?Collection;
 
     /**
-     * @param $key
-     * @param $value
+     * @param string|int $key
+     * @param string|int $value
      *
-     * @return $this
+     * @return static
      */
     public function addOption($key, $value): self;
 }

@@ -3,7 +3,8 @@
 namespace Blueprinting\Tests;
 
 use Blueprinting\Blueprint;
-use Orchestra\Testbench\TestCase;
+use Nyholm\Psr7\Request;
+use PHPUnit\Framework\TestCase;
 
 class AttributeTest extends TestCase
 {
@@ -15,19 +16,20 @@ class AttributeTest extends TestCase
      */
     public function testAttributeUtilities(): void
     {
-        $blueprint = new Blueprint();
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
         $blueprint->attributes['name'] = 'value';
         $blueprint->attributes['name2'] = 'value2';
 
-        $this->assertEquals('value', $blueprint->attributes['name']);
+        self::assertEquals('value', $blueprint->attributes['name']);
 
         unset($blueprint->attributes['name']);
 
-        $this->assertNotTrue(isset($blueprint->attributes['name']));
-        $this->assertCount(1, $blueprint->attributes);
+        self::assertNotTrue(isset($blueprint->attributes['name']));
+        self::assertCount(1, $blueprint->attributes);
 
         $blueprint->setAttribute('name3', 'value3');
-        $this->assertEquals('value3', $blueprint->getAttribute('name3'));
+        self::assertEquals('value3', $blueprint->getAttribute('name3'));
     }
 
     /**
@@ -37,7 +39,8 @@ class AttributeTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $blueprint = new Blueprint();
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
 
         $blueprint->attributes->set('name', 'value');
         $blueprint->attributes['name2'] = 'value2';
@@ -45,16 +48,16 @@ class AttributeTest extends TestCase
         $serialization = $blueprint->serialize();
 
         // Assert base serialization
-        $this->assertIsArray($serialization);
+        self::assertIsArray($serialization);
 
         // Assert attributes using helper methods
-        $this->assertArrayHasKey('attributes', $serialization);
-        $this->assertArrayHasKey('name', $serialization['attributes']);
-        $this->assertEquals('value', $serialization['attributes']['name']);
+        self::assertArrayHasKey('attributes', $serialization);
+        self::assertArrayHasKey('name', $serialization['attributes']);
+        self::assertEquals('value', $serialization['attributes']['name']);
 
         // Assert attributes using ArrayAccess
-        $this->assertArrayHasKey('attributes', $serialization);
-        $this->assertArrayHasKey('name2', $serialization['attributes']);
-        $this->assertEquals('value2', $serialization['attributes']['name2']);
+        self::assertArrayHasKey('attributes', $serialization);
+        self::assertArrayHasKey('name2', $serialization['attributes']);
+        self::assertEquals('value2', $serialization['attributes']['name2']);
     }
 }

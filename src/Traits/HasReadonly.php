@@ -14,7 +14,7 @@ trait HasReadonly
     /**
      * @param bool|null $readonly
      *
-     * @return $this
+     * @return static
      */
     public function setReadonly(bool $readonly = null): self
     {

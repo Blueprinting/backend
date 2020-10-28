@@ -9,7 +9,7 @@ use Blueprinting\Interfaces\Element\WithTemplateInterface;
 use Blueprinting\Interfaces\TemplateInterface;
 use Blueprinting\Traits\HasChildren;
 use Blueprinting\Traits\HasTemplate;
-use Illuminate\Http\Request;
+use Psr\Http\Message\RequestInterface;
 use JsonSerializable;
 
 class Blueprint extends Element implements
@@ -21,17 +21,20 @@ class Blueprint extends Element implements
     use HasTemplate;
 
     /**
-     * @var Request
+     * @var RequestInterface
      */
-    private Request $request;
+    private RequestInterface $request;
 
     /**
      * Blueprint constructor.
      *
+     * @param RequestInterface $request
      * @param TemplateInterface|null $template
      */
-    public function __construct(TemplateInterface $template = null)
+    public function __construct(RequestInterface $request, TemplateInterface $template = null)
     {
+        $this->request = $request;
+
         if ($template !== null) {
             $this->setTemplate($template);
         }
@@ -46,19 +49,19 @@ class Blueprint extends Element implements
     }
 
     /**
-     * @return Request
+     * @return RequestInterface
      */
-    public function getRequest(): Request
+    public function getRequest(): RequestInterface
     {
-        return $this->request ?? app(Request::class);
+        return $this->request;
     }
 
     /**
-     * @param Request $request
+     * @param RequestInterface $request
      *
      * @return self
      */
-    public function setRequest(Request $request): self
+    public function setRequest(RequestInterface $request): self
     {
         $this->request = $request;
         return $this;

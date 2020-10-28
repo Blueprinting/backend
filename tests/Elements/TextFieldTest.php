@@ -4,8 +4,8 @@ namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
-use Illuminate\Http\Request;
-use Orchestra\Testbench\TestCase;
+use Nyholm\Psr7\Request;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 class TextFieldTest extends TestCase
@@ -25,16 +25,16 @@ class TextFieldTest extends TestCase
         $element->setRequired();
         $element->setDefaultValue('default');
 
-        $this->assertEquals('text-field', $element->getType());
-        $this->assertEquals('name', $element->getName()[0]);
-        $this->assertEquals('text', $element->getLabel());
-        $this->assertTrue($element->isReadonly());
-        $this->assertTrue($element->isDisabled());
-        $this->assertTrue($element->isRequired());
-        $this->assertEquals('default', $element->getDefaultValue());
+        self::assertEquals('text-field', $element->getType());
+        self::assertEquals('name', $element->getName()[0]); // @phpstan-ignore-line
+        self::assertEquals('text', $element->getLabel());
+        self::assertTrue($element->isReadonly());
+        self::assertTrue($element->isDisabled());
+        self::assertTrue($element->isRequired());
+        self::assertEquals('default', $element->getDefaultValue());
 
         $this->expectException(RuntimeException::class);
-        $element->setName(0);
+        $element->setName(0); // @phpstan-ignore-line
     }
 
     /**
@@ -44,29 +44,24 @@ class TextFieldTest extends TestCase
      */
     public function testGetValue(): void
     {
-        $blueprint = new Blueprint();
-        $request = new Request();
-        $request->replace(
-            [
-                'test' => [
-                    'field' => 'value',
-                ]
-            ]
-        );
+        $request = new Request('POST', '/', [
+            'Content-Type' => 'application/json'
+        ], '{"test":{"field":"value"}}');
 
+        $blueprint = new Blueprint($request);
         $blueprint->setRequest($request);
 
         $textField = (new TextField())->setName(['test', 'field']);
 
-        $this->assertNull($textField->getValue());
+        self::assertNull($textField->getValue());
 
         $textField->setDefaultValue('default');
 
-        $this->assertEquals('default', $textField->getValue());
+        self::assertEquals('default', $textField->getValue());
 
         $blueprint->children->add($textField);
 
-        $this->assertEquals('value', $textField->getValue());
+        self::assertEquals('value', $textField->getValue());
 
         $this->expectException(RuntimeException::class);
         $textField->setName(['[invalid name']);
@@ -84,8 +79,8 @@ class TextFieldTest extends TestCase
         $element->setDisabled();
         $serialization = $element->serialize();
 
-        $this->assertIsArray($serialization);
-        $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('text-field', $serialization['type']);
+        self::assertIsArray($serialization);
+        self::assertArrayHasKey('type', $serialization);
+        self::assertEquals('text-field', $serialization['type']);
     }
 }

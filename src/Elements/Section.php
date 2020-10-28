@@ -67,14 +67,15 @@ class Section extends Element implements WithChildren
 
     /**
      * @param string $title
-     * @param array $replacements
+     * @param array|null $replacements
      * @param bool|null $translate
      *
-     * @return $this
+     * @return static
      */
     public function setTitle(string $title, array $replacements = null, bool $translate = null): self
     {
-        $this->title = ($translate || $translate === null ? (string)__($title, $replacements ?? []) : $title);
+        // $this->title = ($translate || $translate === null ? (string)__($title, $replacements ?? []) : $title);
+        $this->title = $title;
         return $this;
     }
 
@@ -88,17 +89,19 @@ class Section extends Element implements WithChildren
 
     /**
      * @param string $description
-     * @param array $replacements
+     * @param array|null $replacements
      * @param bool|null $translate
      *
-     * @return $this
+     * @return static
      */
     public function setDescription(string $description, array $replacements = null, bool $translate = null): self
     {
-        $this->description = ($translate || $translate === null ?
+        /* $this->description = ($translate || $translate === null ?
             (string)__($description, $replacements ?? []) :
             $description
-        );
+        ); */
+
+        $this->description = $description;
 
         return $this;
     }
@@ -143,7 +146,7 @@ class Section extends Element implements WithChildren
 
         return array_filter(
             $serialization,
-            fn($value) => $value !== null
+            static fn($value) => $value !== null
         );
     }
 }

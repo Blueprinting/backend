@@ -16,7 +16,7 @@ interface WithTemplateInterface
     /**
      * @param TemplateInterface $template
      *
-     * @return $this
+     * @return static
      */
     public function setTemplate(TemplateInterface $template): self;
 }

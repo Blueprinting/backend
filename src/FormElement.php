@@ -7,6 +7,7 @@ namespace Blueprinting;
 use Blueprinting\Interfaces\FormElement\DisabledInterface;
 use Blueprinting\Interfaces\FormElement\ReadonlyInterface;
 use Blueprinting\Interfaces\FormElementInterface;
+use JsonException;
 use RuntimeException;
 
 abstract class FormElement extends Element implements FormElementInterface
@@ -28,7 +29,7 @@ abstract class FormElement extends Element implements FormElementInterface
 
     /**
      * FormElement constructor.
-     * @param null $name
+     * @param string[]|string|null $name
      */
     public function __construct($name = null)
     {
@@ -38,18 +39,21 @@ abstract class FormElement extends Element implements FormElementInterface
     }
 
     /**
-     * @param string[]|string $name
-     *
-     * @return $this
+     * @inheritDoc
      */
     public function setName($name): self
     {
-        if (!is_string($name) && !is_array($name) && $name !== null) {
-            throw new RuntimeException('$name can only be array, string or null');
+        if ($name === null) {
+            $this->name = null;
+            return $this;
         }
 
         if (is_string($name)) {
             $name = [$name];
+        }
+
+        if (!is_array($name)) {
+            throw new RuntimeException('$name has to match string|string[]|null');
         }
 
         // Validate that name is valid
@@ -65,7 +69,7 @@ abstract class FormElement extends Element implements FormElementInterface
     }
 
     /**
-     * @return string[]|null
+     * @inheritDoc
      */
     public function getName(): ?array
     {
@@ -73,26 +77,52 @@ abstract class FormElement extends Element implements FormElementInterface
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
+     * @throws JsonException
      */
     public function getValue()
     {
-        $defaultValue = $this->getDefaultValue();
-
         if (
-            ($request = $this->getRequest()) &&
+            ($requestData = $this->getRequestData()) &&
             ($name = $this->getName())
         ) {
-            return $request->input(implode('.', $name), $defaultValue);
+            // Iterate over names and dig into the request data slice by slice.
+            while ($currName = array_shift($name)) {
+                if (isset($requestData[$currName])) {
+                    $requestData = $requestData[$currName];
+                } else {
+                    // If index wasn't found fall back to returning the default value
+                    return $this->getDefaultValue();
+                }
+            }
+
+            // All names traversed - return the request data left
+            return $requestData;
         }
 
-        return $defaultValue;
+        return $this->getDefaultValue();
     }
 
     /**
-     * @param $value
-     *
-     * @return self
+     * @return array|null
+     * @throws JsonException
+     */
+    public function getRequestData(): ?array
+    {
+        if (
+            ($request = $this->getRequest()) &&
+            ($body = (string)$request->getBody()) &&
+            ($body = @json_decode($body, true, 512, JSON_THROW_ON_ERROR))
+        ) {
+            return $body;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @inheritDoc
      */
     public function setDefaultValue($value): self
     {
@@ -101,7 +131,7 @@ abstract class FormElement extends Element implements FormElementInterface
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
     public function getDefaultValue()
     {
@@ -119,7 +149,7 @@ abstract class FormElement extends Element implements FormElementInterface
                 'readonly' => ($this instanceof ReadonlyInterface ? $this->isReadonly() : null),
                 'required' => $this->isRequired(),
             ],
-            fn($value) => $value !== null,
+            static fn($value) => $value !== null,
         );
 
         return array_replace(
@@ -131,7 +161,7 @@ abstract class FormElement extends Element implements FormElementInterface
     /**
      * @param bool|null $required
      *
-     * @return $this
+     * @return static
      */
     public function setRequired(bool $required = null): self
     {

@@ -4,7 +4,7 @@ namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Elements\Section;
 use Blueprinting\Elements\TextField;
-use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SectionTest extends TestCase
 {
@@ -18,17 +18,17 @@ class SectionTest extends TestCase
         $element = new Section('title', 'description', new TextField());
         $element->toolbar[] = new TextField();
 
-        $this->assertEquals('section', $element->getType());
-        $this->assertCount(1, $element);
-        $this->assertCount(1, $element->toolbar);
-        $this->assertEquals('title', $element->getTitle());
-        $this->assertEquals('description', $element->getDescription());
+        self::assertEquals('section', $element->getType());
+        self::assertCount(1, $element);
+        self::assertCount(1, $element->toolbar);
+        self::assertEquals('title', $element->getTitle());
+        self::assertEquals('description', $element->getDescription());
 
         $element->setTitle('title', null, false);
         $element->setDescription('description', null, false);
 
-        $this->assertEquals('title', $element->getTitle());
-        $this->assertEquals('description', $element->getDescription());
+        self::assertEquals('title', $element->getTitle());
+        self::assertEquals('description', $element->getDescription());
     }
 
     /**
@@ -43,28 +43,28 @@ class SectionTest extends TestCase
 
         $serialization = $element->serialize();
 
-        $this->assertIsArray($serialization);
-        $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('section', $serialization['type']);
+        self::assertIsArray($serialization);
+        self::assertArrayHasKey('type', $serialization);
+        self::assertEquals('section', $serialization['type']);
 
         // Assert children
-        $this->assertArrayHasKey('children', $serialization);
-        $this->assertIsArray($serialization['children']);
-        $this->assertNotEmpty($serialization['children']);
+        self::assertArrayHasKey('children', $serialization);
+        self::assertIsArray($serialization['children']);
+        self::assertNotEmpty($serialization['children']);
 
         // Assert toolbar
-        $this->assertArrayHasKey('toolbar', $serialization);
-        $this->assertIsArray($serialization['toolbar']);
-        $this->assertNotEmpty($serialization['toolbar']);
+        self::assertArrayHasKey('toolbar', $serialization);
+        self::assertIsArray($serialization['toolbar']);
+        self::assertNotEmpty($serialization['toolbar']);
 
         // Assert title
-        $this->assertArrayHasKey('title', $serialization);
-        $this->assertIsString($serialization['title']);
-        $this->assertNotEmpty($serialization['title']);
+        self::assertArrayHasKey('title', $serialization);
+        self::assertIsString($serialization['title']);
+        self::assertNotEmpty($serialization['title']);
 
         // Assert description
-        $this->assertArrayHasKey('description', $serialization);
-        $this->assertIsString($serialization['description']);
-        $this->assertNotEmpty($serialization['description']);
+        self::assertArrayHasKey('description', $serialization);
+        self::assertIsString($serialization['description']);
+        self::assertNotEmpty($serialization['description']);
     }
 }

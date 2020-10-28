@@ -11,7 +11,7 @@ interface LabelInterface
      * @param array|null $replacement
      * @param bool|null $translate
      *
-     * @return $this
+     * @return static
      */
     public function setLabel(string $text, array $replacement = null, bool $translate = null): self;
 

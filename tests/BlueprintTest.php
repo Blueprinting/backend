@@ -6,7 +6,8 @@ use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
 use Blueprinting\Template;
 use JsonException;
-use Orchestra\Testbench\TestCase;
+use Nyholm\Psr7\Request;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 class BlueprintTest extends TestCase
@@ -18,19 +19,24 @@ class BlueprintTest extends TestCase
      */
     public function testObject(): void
     {
-        $blueprint = new Blueprint();
-        $this->assertEquals('blueprint', $blueprint->getType());
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
+
+        self::assertEquals('blueprint', $blueprint->getType());
 
         $blueprint->addClassName('className1');
         $blueprint->addClassNames(['className2', 'className3']);
 
         $classNames = $blueprint->getClassNames();
 
-        $this->assertNotEmpty($classNames);
-        $this->assertIsArray($classNames);
-        $this->assertContains('className1', $classNames);
-        $this->assertContains('className2', $classNames);
-        $this->assertContains('className3', $classNames);
+        self::assertNotEmpty($classNames);
+        self::assertIsArray($classNames);
+
+        if ($classNames !== null) {
+            self::assertContains('className1', $classNames);
+            self::assertContains('className2', $classNames);
+            self::assertContains('className3', $classNames);
+        }
     }
 
     /**
@@ -40,7 +46,8 @@ class BlueprintTest extends TestCase
      */
     public function testElements(): void
     {
-        $blueprint = new Blueprint();
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
         $blueprint->children[] = new TextField();
 
         $blueprint->children[] = [
@@ -48,30 +55,30 @@ class BlueprintTest extends TestCase
             new TextField(),
         ];
 
-        $this->assertCount(3, $blueprint->children);
-        $this->assertNotNull($blueprint->children->get());
-        $this->assertTrue(isset($blueprint->children[0]));
+        self::assertCount(3, $blueprint->children);
+        self::assertNotNull($blueprint->children->get());
+        self::assertTrue(isset($blueprint->children[0]));
 
-        $this->assertNotTrue(isset($blueprint->children[5]));
+        self::assertNotTrue(isset($blueprint->children[5]));
 
         try {
             $blueprint->children[3] = new TextField();
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
 
-        $this->assertInstanceOf(TextField::class, $blueprint->children[3]);
-        $this->assertCount(4, $blueprint->children);
+        self::assertInstanceOf(TextField::class, $blueprint->children[3]);
+        self::assertCount(4, $blueprint->children);
 
         try {
             $blueprint->children[] = 0;
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
 
         try {
             $blueprint->children[5] = 0;
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
     }
@@ -83,7 +90,8 @@ class BlueprintTest extends TestCase
      */
     public function testChildren(): void
     {
-        $blueprint = new Blueprint();
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
         $blueprint[] = new TextField();
 
         $blueprint[] = [
@@ -91,35 +99,35 @@ class BlueprintTest extends TestCase
             new TextField(),
         ];
 
-        $this->assertCount(3, $blueprint);
-        $this->assertTrue(isset($blueprint[0]));
+        self::assertCount(3, $blueprint);
+        self::assertTrue(isset($blueprint[0]));
 
-        $this->assertNotTrue(isset($blueprint[5]));
+        self::assertNotTrue(isset($blueprint[5]));
 
         try {
             $blueprint[3] = new TextField();
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
 
-        $this->assertInstanceOf(TextField::class, $blueprint[3]);
-        $this->assertCount(4, $blueprint);
+        self::assertInstanceOf(TextField::class, $blueprint[3]);
+        self::assertCount(4, $blueprint);
 
         try {
             $blueprint[] = 0;
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
 
         try {
             $blueprint[5] = 0;
-            $this->fail('RuntimeException was not thrown');
+            self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
 
         unset($blueprint[0]);
 
-        $this->assertNotTrue(isset($blueprint[0]));
+        self::assertNotTrue(isset($blueprint[0]));
     }
 
     /**
@@ -129,13 +137,14 @@ class BlueprintTest extends TestCase
      */
     public function testElementsCollection(): void
     {
-        $blueprint = new Blueprint();
+        $request = new Request('GET', '/');
+        $blueprint = new Blueprint($request);
         $blueprint->children[3] = new TextField();
-        $this->assertCount(1, $blueprint->children);
+        self::assertCount(1, $blueprint->children);
 
         unset($blueprint->children[3]);
 
-        $this->assertCount(0, $blueprint->children);
+        self::assertCount(0, $blueprint->children);
     }
 
     /**
@@ -147,7 +156,9 @@ class BlueprintTest extends TestCase
      */
     public function testSerialization(): void
     {
+        $request = new Request('GET', '/');
         $blueprint = new Blueprint(
+            $request,
             new Template('test', [
                 'name' => 'value',
             ])
@@ -159,32 +170,32 @@ class BlueprintTest extends TestCase
         $serialization = $blueprint->serialize();
 
         // Assert base serialization
-        $this->assertIsArray($serialization);
-        $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('blueprint', $serialization['type']);
+        self::assertIsArray($serialization);
+        self::assertArrayHasKey('type', $serialization);
+        self::assertEquals('blueprint', $serialization['type']);
 
         // Assert template
-        $this->assertArrayHasKey('template', $serialization);
-        $this->assertIsArray($serialization['template']);
+        self::assertArrayHasKey('template', $serialization);
+        self::assertIsArray($serialization['template']);
 
         // Assert template name
-        $this->assertArrayHasKey('name', $serialization['template']);
-        $this->assertEquals('test', $serialization['template']['name']);
+        self::assertArrayHasKey('name', $serialization['template']);
+        self::assertEquals('test', $serialization['template']['name']);
 
         // Assert template params
-        $this->assertArrayHasKey('params', $serialization['template']);
-        $this->assertArrayHasKey('name', $serialization['template']['params']);
-        $this->assertEquals('value', $serialization['template']['params']['name']);
+        self::assertArrayHasKey('params', $serialization['template']);
+        self::assertArrayHasKey('name', $serialization['template']['params']);
+        self::assertEquals('value', $serialization['template']['params']['name']);
 
         // Assert classNames
-        $this->assertArrayHasKey('classNames', $serialization);
-        $this->assertIsArray($serialization['classNames']);
-        $this->assertContains('className1', $serialization['classNames']);
+        self::assertArrayHasKey('classNames', $serialization);
+        self::assertIsArray($serialization['classNames']);
+        self::assertContains('className1', $serialization['classNames']);
 
         // Assert children
-        $this->assertArrayHasKey('children', $serialization);
-        $this->assertNotEmpty($serialization['children']);
-        $this->assertIsArray($serialization['children']);
+        self::assertArrayHasKey('children', $serialization);
+        self::assertNotEmpty($serialization['children']);
+        self::assertIsArray($serialization['children']);
 
         $serialization = json_decode(
             json_encode(
@@ -197,31 +208,31 @@ class BlueprintTest extends TestCase
         );
 
         // Assert base serialization
-        $this->assertIsArray($serialization);
-        $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('blueprint', $serialization['type']);
+        self::assertIsArray($serialization);
+        self::assertArrayHasKey('type', $serialization);
+        self::assertEquals('blueprint', $serialization['type']);
 
         // Assert template
-        $this->assertArrayHasKey('template', $serialization);
-        $this->assertIsArray($serialization['template']);
+        self::assertArrayHasKey('template', $serialization);
+        self::assertIsArray($serialization['template']);
 
         // Assert template name
-        $this->assertArrayHasKey('name', $serialization['template']);
-        $this->assertEquals('test', $serialization['template']['name']);
+        self::assertArrayHasKey('name', $serialization['template']);
+        self::assertEquals('test', $serialization['template']['name']);
 
         // Assert template params
-        $this->assertArrayHasKey('params', $serialization['template']);
-        $this->assertArrayHasKey('name', $serialization['template']['params']);
-        $this->assertEquals('value', $serialization['template']['params']['name']);
+        self::assertArrayHasKey('params', $serialization['template']);
+        self::assertArrayHasKey('name', $serialization['template']['params']);
+        self::assertEquals('value', $serialization['template']['params']['name']);
 
         // Assert classNames
-        $this->assertArrayHasKey('classNames', $serialization);
-        $this->assertIsArray($serialization['classNames']);
-        $this->assertContains('className1', $serialization['classNames']);
+        self::assertArrayHasKey('classNames', $serialization);
+        self::assertIsArray($serialization['classNames']);
+        self::assertContains('className1', $serialization['classNames']);
 
         // Assert children
-        $this->assertArrayHasKey('children', $serialization);
-        $this->assertNotEmpty($serialization['children']);
-        $this->assertIsArray($serialization['children']);
+        self::assertArrayHasKey('children', $serialization);
+        self::assertNotEmpty($serialization['children']);
+        self::assertIsArray($serialization['children']);
     }
 }

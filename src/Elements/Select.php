@@ -28,7 +28,7 @@ class Select extends FormElement implements
     /**
      * Select constructor.
      *
-     * @param null $name
+     * @param string|string[]|null $name
      * @param string|null $label
      */
     public function __construct($name = null, string $label = null)
@@ -70,7 +70,7 @@ class Select extends FormElement implements
     /**
      * @param bool $multiple
      *
-     * @return $this
+     * @return static
      */
     public function setMultiple(bool $multiple = null): self
     {

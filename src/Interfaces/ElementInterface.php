@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Blueprinting\Interfaces;
 
-use Illuminate\Http\Request;
+use Psr\Http\Message\RequestInterface;
 
 interface ElementInterface
 {
@@ -39,9 +39,9 @@ interface ElementInterface
     public function setParent(ElementInterface $element): self;
 
     /**
-     * @return Request|null
+     * @return RequestInterface|null
      */
-    public function getRequest(): ?Request;
+    public function getRequest(): ?RequestInterface;
 
     /**
      * @param string $name
@@ -54,21 +54,21 @@ interface ElementInterface
      * @param string $name
      * @param string $value
      *
-     * @return $this
+     * @return static
      */
     public function setAttribute(string $name, string $value): self;
 
     /**
      * @param string $className
      *
-     * @return $this
+     * @return static
      */
     public function addClassName(string $className): self;
 
     /**
-     * @param array $classNames
+     * @param string[] $classNames
      *
-     * @return $this
+     * @return static
      */
     public function addClassNames(array $classNames): self;
 

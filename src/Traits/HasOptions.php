@@ -16,7 +16,7 @@ trait HasOptions
     /**
      * @param array $options
      *
-     * @return $this
+     * @return static
      */
     public function setOptions(array $options): self
     {
@@ -38,10 +38,10 @@ trait HasOptions
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param mixed $key
+     * @param mixed $value
      *
-     * @return $this
+     * @return static
      */
     public function addOption($key, $value): self
     {

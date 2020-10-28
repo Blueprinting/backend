@@ -9,7 +9,7 @@ interface DisabledInterface
     /**
      * @param bool|null $disabled
      *
-     * @return $this
+     * @return static
      */
     public function setDisabled(bool $disabled = null): self;
 

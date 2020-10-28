@@ -4,8 +4,9 @@ namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Blueprint;
 use Blueprinting\Elements\Select;
-use Illuminate\Http\Request;
-use Orchestra\Testbench\TestCase;
+use JsonException;
+use Nyholm\Psr7\Request;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 class SelectTest extends TestCase
@@ -14,6 +15,7 @@ class SelectTest extends TestCase
      * Assert object
      *
      * @return void
+     * @throws JsonException
      */
     public function testObject(): void
     {
@@ -33,57 +35,60 @@ class SelectTest extends TestCase
         );
 
         $element->setMultiple();
+        $options = $element->getOptions();
 
-        $this->assertNotNull($element->getOptions());
-        $this->assertCount(2, $element->getOptions());
+        self::assertNotNull($options);
+        self::assertCount(2, $options); // @phpstan-ignore-line
+        self::assertEquals('select', $element->getType());
 
-        $this->assertEquals('select', $element->getType());
-        $this->assertEquals('name', $element->getName()[0]);
-        $this->assertEquals('label', $element->getLabel());
-        $this->assertTrue($element->isReadonly());
-        $this->assertTrue($element->isDisabled());
-        $this->assertTrue($element->isRequired());
-        $this->assertTrue($element->hasMultiple());
-        $this->assertEquals('default', $element->getDefaultValue());
+        $name = $element->getName();
+        self::assertNotEmpty($name);
+        self::assertIsArray($name);
+        self::assertArrayHasKey(0, $name); // @phpstan-ignore-line
+        self::assertEquals('name', $name[0]); // @phpstan-ignore-line
+
+        self::assertEquals('label', $element->getLabel());
+        self::assertTrue($element->isReadonly());
+        self::assertTrue($element->isDisabled());
+        self::assertTrue($element->isRequired());
+        self::assertTrue($element->hasMultiple());
+        self::assertEquals('default', $element->getDefaultValue());
 
         $element->setDefaultValue(0);
-        $this->assertEquals(0, $element->getValue());
+        self::assertEquals(0, $element->getValue());
 
         $this->expectException(RuntimeException::class);
-        $element->setName(0);
+        $element->setName(0); // @phpstan-ignore-line
     }
 
     /**
      * Assert getValue()
      *
      * @return void
+     * @throws JsonException
      */
     public function testGetValue(): void
     {
-        $blueprint = new Blueprint();
-        $request = new Request();
-        $request->replace(
-            [
-                'test' => [
-                    'field' => 'value',
-                ]
-            ]
-        );
+        $request = new Request('POST', '/', [
+            'Content-Type' => 'application/json'
+        ], '{"test":{"field":"value"}}');
+
+        $blueprint = new Blueprint($request);
 
         $blueprint->setRequest($request);
 
         $element = (new Select())
             ->setName(['test', 'field']);
 
-        $this->assertNull($element->getValue());
+        self::assertNull($element->getValue());
 
         $element->setDefaultValue('default');
 
-        $this->assertEquals('default', $element->getValue());
+        self::assertEquals('default', $element->getValue());
 
         $blueprint->children->add($element);
 
-        $this->assertEquals('value', $element->getValue());
+        self::assertEquals('value', $element->getValue());
 
         $this->expectException(RuntimeException::class);
         $element->setName(['[invalid name']);
@@ -98,7 +103,7 @@ class SelectTest extends TestCase
     {
         $element = new Select();
         $element->addOption('name', 'value');
-        $this->assertCount(1, $element->getOptions());
+        self::assertCount(1, $element->getOptions()); // @phpstan-ignore-line
     }
 
     /**
@@ -113,11 +118,11 @@ class SelectTest extends TestCase
 
         $serialization = $element->serialize();
 
-        $this->assertIsArray($serialization);
-        $this->assertArrayHasKey('type', $serialization);
-        $this->assertEquals('select', $serialization['type']);
+        self::assertIsArray($serialization);
+        self::assertArrayHasKey('type', $serialization);
+        self::assertEquals('select', $serialization['type']);
 
-        $this->assertArrayHasKey('multiple', $serialization);
-        $this->assertTrue($serialization['multiple'], $serialization['multiple']);
+        self::assertArrayHasKey('multiple', $serialization);
+        self::assertTrue($serialization['multiple'], $serialization['multiple']);
     }
 }

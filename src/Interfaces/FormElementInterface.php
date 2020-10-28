@@ -7,9 +7,9 @@ namespace Blueprinting\Interfaces;
 interface FormElementInterface extends ElementInterface
 {
     /**
-     * @param string[]|string $name
+     * @param string[]|string|null $name
      *
-     * @return $this
+     * @return static
      */
     public function setName($name): self;
 
@@ -24,21 +24,21 @@ interface FormElementInterface extends ElementInterface
     public function getValue();
 
     /**
-     * @param $value
+     * @param string|string[]|int|int[]|null $value
      *
-     * @return self
+     * @return static
      */
     public function setDefaultValue($value): self;
 
     /**
-     * @return mixed
+     * @return string|array|null
      */
     public function getDefaultValue();
 
     /**
      * @param bool|null $required
      *
-     * @return $this
+     * @return static
      */
     public function setRequired(bool $required = null): self;
 

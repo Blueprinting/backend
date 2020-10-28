@@ -10,7 +10,7 @@ interface TemplateInterface
      * TemplateInterface constructor.
      *
      * @param string $name
-     * @param array $params|null
+     * @param array|null $params |null
      */
     public function __construct(string $name, array $params = null);
 
@@ -22,7 +22,7 @@ interface TemplateInterface
     /**
      * @param string $name
      *
-     * @return $this
+     * @return static
      */
     public function setName(string $name): self;
 
@@ -34,7 +34,7 @@ interface TemplateInterface
     /**
      * @param array $params
      *
-     * @return $this
+     * @return static
      */
     public function setParams(array $params): self;
 

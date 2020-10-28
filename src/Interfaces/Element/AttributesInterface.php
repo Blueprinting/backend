@@ -26,7 +26,7 @@ interface AttributesInterface extends ArrayAccess, Countable
      * @param string $name
      * @param string $value
      *
-     * @return $this
+     * @return static
      */
     public function set(string $name, string $value): self;
 }

@@ -16,11 +16,12 @@ trait HasLabel
      * @param array|null $replacement
      * @param bool|null $translate
      *
-     * @return $this
+     * @return static
      */
     public function setLabel(string $text, array $replacement = null, bool $translate = null): self
     {
-        $this->label = ($translate || $translate === null ? (string)__($text, $replacement ?? []) : $text);
+        // $this->label = ($translate || $translate === null ? (string)__($text, $replacement ?? []) : $text);
+        $this->label = $text;
         return $this;
     }
 
