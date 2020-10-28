@@ -25,9 +25,5 @@ jobs:
       with:
         fail_ci_if_error: true
 
-    - name: PHPStan
-      uses: docker://oskarstark/phpstan-ga
-      env:
-        REQUIRE_DEV: true
-      with:
-        args: analyse
+    - name: Run PHPStan
+        run: vendor/bin/phpstan analyse
