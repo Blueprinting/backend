@@ -33,6 +33,9 @@ class TextFieldTest extends TestCase
         self::assertTrue($element->isRequired());
         self::assertEquals('default', $element->getDefaultValue());
 
+        $element->setName(null);
+        self::assertNull($element->getName());
+
         $this->expectException(RuntimeException::class);
         $element->setName(0); // @phpstan-ignore-line
     }
@@ -62,6 +65,9 @@ class TextFieldTest extends TestCase
         $blueprint->children->add($textField);
 
         self::assertEquals('value', $textField->getValue());
+
+        $textField->setName('test2');
+        self::assertSame('default', $textField->getValue());
 
         $this->expectException(RuntimeException::class);
         $textField->setName(['[invalid name']);
