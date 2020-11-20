@@ -2,11 +2,10 @@
     "name": "blueprinting/backend",
     "type": "library",
     "description": "Framework agnostic view scaffolding for CRUD administrative interfaces.",
-    "keywords": [
-
-    ],
+    "keywords": ["php", "crud", "scaffolding", "laravel", "symfony"],
     "license": "MIT",
     "prefer-stable": true,
+    "version": "0.0.1",
     "scripts": {
         "phpcs": "phpcs --standard=PSR12 ./src ./tests"
     },
