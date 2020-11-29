@@ -18,14 +18,7 @@ use Psr\Http\Message\RequestInterface;
  */
 abstract class Element implements ElementInterface
 {
-    /**
-     * @var ElementInterface
-     */
     private ElementInterface $parent;
-
-    /**
-     * @var AttributesInterface
-     */
     private AttributesInterface $internalAttributes;
 
     /**
@@ -35,15 +28,11 @@ abstract class Element implements ElementInterface
 
     /**
      * Get element type. Used by renderer.
-     *
-     * @return string
      */
     abstract public function getType(): string;
 
     /**
      * Set parent element.
-     *
-     * @return ElementInterface|null
      */
     public function getParent(): ?ElementInterface
     {
@@ -52,10 +41,6 @@ abstract class Element implements ElementInterface
 
     /**
      * Get parent element.
-     *
-     * @param ElementInterface $element
-     *
-     * @return static
      */
     public function setParent(ElementInterface $element): self
     {
@@ -63,9 +48,6 @@ abstract class Element implements ElementInterface
         return $this;
     }
 
-    /**
-     * @return RequestInterface|null
-     */
     public function getRequest(): ?RequestInterface
     {
         $parent = $this;
@@ -83,9 +65,6 @@ abstract class Element implements ElementInterface
         return null;
     }
 
-    /**
-     * @return AttributesInterface
-     */
     public function getAttributesAttribute(): AttributesInterface
     {
         if (!isset($this->internalAttributes)) {
@@ -95,33 +74,17 @@ abstract class Element implements ElementInterface
         return $this->internalAttributes;
     }
 
-    /**
-     * @param string $name
-     * @param string $value
-     *
-     * @return static
-     */
     public function setAttribute(string $name, string $value): self
     {
         $this->attributes->set($name, $value);
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string|null
-     */
     public function getAttribute(string $name): ?string
     {
         return $this->attributes->get($name);
     }
 
-    /**
-     * @param string $className
-     *
-     * @return static
-     */
     public function addClassName(string $className): self
     {
         if (!isset($this->classNames)) {
@@ -135,8 +98,6 @@ abstract class Element implements ElementInterface
 
     /**
      * @param string[] $classNames
-     *
-     * @return static
      */
     public function addClassNames(array $classNames): self
     {
@@ -157,8 +118,6 @@ abstract class Element implements ElementInterface
 
     /**
      * Serialize element for renderer.
-     *
-     * @return array
      */
     public function serialize(): array
     {
@@ -189,8 +148,6 @@ abstract class Element implements ElementInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return mixed
      */
     public function __get(string $name)

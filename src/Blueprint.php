@@ -20,18 +20,9 @@ class Blueprint extends Element implements
     use HasChildren;
     use HasTemplate;
 
-    /**
-     * @var RequestInterface
-     */
     private RequestInterface $request;
 
-    /**
-     * Blueprint constructor.
-     *
-     * @param RequestInterface $request
-     * @param TemplateInterface|null $template
-     */
-    public function __construct(RequestInterface $request, TemplateInterface $template = null)
+    public function __construct(RequestInterface $request, ?TemplateInterface $template = null)
     {
         $this->request = $request;
 
@@ -48,19 +39,11 @@ class Blueprint extends Element implements
         return 'blueprint';
     }
 
-    /**
-     * @return RequestInterface
-     */
     public function getRequest(): RequestInterface
     {
         return $this->request;
     }
 
-    /**
-     * @param RequestInterface $request
-     *
-     * @return self
-     */
     public function setRequest(RequestInterface $request): self
     {
         $this->request = $request;

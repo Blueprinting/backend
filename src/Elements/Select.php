@@ -25,13 +25,14 @@ class Select extends FormElement implements
     use HasLabel;
     use HasOptions;
 
+    private bool $multiple;
+
     /**
      * Select constructor.
      *
      * @param string|string[]|null $name
-     * @param string|null $label
      */
-    public function __construct($name = null, string $label = null)
+    public function __construct($name = null, ?string $label = null)
     {
         parent::__construct($name);
 
@@ -39,11 +40,6 @@ class Select extends FormElement implements
             $this->setLabel($label);
         }
     }
-
-    /**
-     * @var bool
-     */
-    private bool $multiple;
 
     /**
      * @inheritDoc
@@ -67,20 +63,12 @@ class Select extends FormElement implements
         return $value;
     }
 
-    /**
-     * @param bool $multiple
-     *
-     * @return static
-     */
-    public function setMultiple(bool $multiple = null): self
+    public function setMultiple(bool $multiple = true): self
     {
         $this->multiple = $multiple ?? true;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasMultiple(): bool
     {
         return $this->multiple ?? false;

@@ -14,20 +14,12 @@ interface ElementsInterface extends ArrayAccess, Countable
      * Add one or more elements to collection.
      *
      * @param ElementInterface|ElementInterface[] $element
-     *
-     * @return static
      */
     public function add($element): self;
 
     /**
      * Get collection.
-     *
-     * @return Collection|null
      */
     public function get(): ?Collection;
-
-    /**
-     * @return array|null
-     */
     public function serialize(): ?array;
 }

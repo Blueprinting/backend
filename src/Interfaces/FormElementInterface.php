@@ -8,8 +8,6 @@ interface FormElementInterface extends ElementInterface
 {
     /**
      * @param string[]|string|null $name
-     *
-     * @return static
      */
     public function setName($name): self;
 
@@ -25,8 +23,6 @@ interface FormElementInterface extends ElementInterface
 
     /**
      * @param string|string[]|int|int[]|null $value
-     *
-     * @return static
      */
     public function setDefaultValue($value): self;
 
@@ -34,16 +30,6 @@ interface FormElementInterface extends ElementInterface
      * @return string|array|null
      */
     public function getDefaultValue();
-
-    /**
-     * @param bool|null $required
-     *
-     * @return static
-     */
-    public function setRequired(bool $required = null): self;
-
-    /**
-     * @return bool
-     */
+    public function setRequired(bool $required = true): self;
     public function isRequired(): bool;
 }

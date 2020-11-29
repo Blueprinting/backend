@@ -11,9 +11,6 @@ class Attributes implements AttributesInterface
 {
     private Collection $attributes;
 
-    /**
-     * @inheritDoc
-     */
     public function get(string $name): ?string
     {
         return (
@@ -26,17 +23,11 @@ class Attributes implements AttributesInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAll(): ?Collection
     {
         return $this->attributes ?? null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function set(string $name, string $value): self
     {
         if (!isset($this->attributes)) {
@@ -89,9 +80,7 @@ class Attributes implements AttributesInterface
     {
         if ($this->get($offset) !== null) {
             $this->attributes = $this->attributes->filter(
-                static function ($attribute) use ($offset) {
-                    return $attribute['name'] !== $offset;
-                }
+                static fn ($attribute) => $attribute['name'] !== $offset
             )->values();
         }
     }

@@ -20,29 +20,16 @@ class Section extends Element implements WithChildren
 {
     use HasChildren;
 
-    /**
-     * @var string
-     */
     private string $title;
-
-    /**
-     * @var string
-     */
     private string $description;
-
-    /**
-     * @var ElementsInterface
-     */
     private ElementsInterface $internalToolbar;
 
     /**
      * Section constructor.
      *
-     * @param string|null $title
-     * @param string|null $description
-     * @param ElementInterface|ElementInterface[]|null $elements
+     * @param ElementInterface[]|null $elements
      */
-    public function __construct(string $title = null, string $description = null, $elements = null)
+    public function __construct(?string $title = null, ?string $description = null, ?array $elements = null)
     {
         if ($title !== null) {
             $this->setTitle($title);
@@ -65,36 +52,19 @@ class Section extends Element implements WithChildren
         return 'section';
     }
 
-    /**
-     * @param string $title
-     * @param array|null $replacements
-     * @param bool|null $translate
-     *
-     * @return static
-     */
-    public function setTitle(string $title, array $replacements = null, bool $translate = null): self
+    public function setTitle(string $title, ?array $replacements = null, bool $translate = true): self
     {
         // $this->title = ($translate || $translate === null ? (string)__($title, $replacements ?? []) : $title);
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitle(): ?string
     {
         return $this->title ?? null;
     }
 
-    /**
-     * @param string $description
-     * @param array|null $replacements
-     * @param bool|null $translate
-     *
-     * @return static
-     */
-    public function setDescription(string $description, array $replacements = null, bool $translate = null): self
+    public function setDescription(string $description, ?array $replacements = null, bool $translate = null): self
     {
         /* $this->description = ($translate || $translate === null ?
             (string)__($description, $replacements ?? []) :
@@ -106,9 +76,6 @@ class Section extends Element implements WithChildren
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description ?? null;

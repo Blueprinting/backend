@@ -8,15 +8,6 @@ use Blueprinting\Interfaces\TemplateInterface;
 
 interface WithTemplateInterface
 {
-    /**
-     * @return TemplateInterface|null
-     */
     public function getTemplate(): ?TemplateInterface;
-
-    /**
-     * @param TemplateInterface $template
-     *
-     * @return static
-     */
     public function setTemplate(TemplateInterface $template): self;
 }

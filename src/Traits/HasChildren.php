@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Blueprinting\Traits;
 
@@ -15,22 +13,13 @@ use Blueprinting\Interfaces\ElementInterface;
  */
 trait HasChildren
 {
-    /**
-     * @var Elements
-     */
     private Elements $internalChildren;
 
-    /**
-     * @return Elements
-     */
     public function getChildrenAttribute(): Elements
     {
         return $this->getChildren();
     }
 
-    /**
-     * @return Elements
-     */
     public function getChildren(): Elements
     {
         if (!isset($this->internalChildren)) {

@@ -1,30 +1,17 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Blueprinting\Traits;
 
 trait HasDisabled
 {
-    /**
-     * @var bool
-     */
     private bool $disabled;
 
-    /**
-     * @param bool|null $disabled
-     *
-     * @return static
-     */
-    public function setDisabled(bool $disabled = null): self
+    public function setDisabled(bool $disabled = true): self
     {
         $this->disabled = $disabled ?? true;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisabled(): bool
     {
         return $this->disabled ?? false;

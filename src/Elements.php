@@ -11,22 +11,10 @@ use RuntimeException;
 
 class Elements implements ElementsInterface
 {
-    /**
-     * @var ElementInterface
-     */
     private ElementInterface $parent;
-
-    /**
-     * @var Collection
-     */
     private Collection $elements;
 
-    /**
-     * Elements constructor.
-     *
-     * @param ElementInterface|null $parent
-     */
-    public function __construct(ElementInterface $parent = null)
+    public function __construct(?ElementInterface $parent = null)
     {
         if ($parent !== null) {
             $this->parent = $parent;
@@ -34,11 +22,7 @@ class Elements implements ElementsInterface
     }
 
     /**
-     * Add one or more elements to collection.
-     *
-     * @param ElementInterface|ElementInterface[] $element
-     *
-     * @return self
+     * @inheritDoc
      */
     public function add($element): self
     {
@@ -64,9 +48,7 @@ class Elements implements ElementsInterface
     }
 
     /**
-     * Get collection.
-     *
-     * @return Collection|null
+     * @inheritDoc
      */
     public function get(): ?Collection
     {
@@ -135,17 +117,10 @@ class Elements implements ElementsInterface
         return (isset($this->elements) ? $this->elements->count() : 0);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function serialize(): ?array
     {
         if ($children = $this->get()) {
-            return $children->map(
-                static function (ElementInterface $element) {
-                    return $element->serialize();
-                }
-            )->toArray();
+            return $children->map(static fn (ElementInterface $element) => $element->serialize())->toArray();
         }
 
         return null;

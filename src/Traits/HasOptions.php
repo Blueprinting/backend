@@ -8,16 +8,8 @@ use Illuminate\Support\Collection;
 
 trait HasOptions
 {
-    /**
-     * @var Collection
-     */
     private Collection $options;
 
-    /**
-     * @param array $options
-     *
-     * @return static
-     */
     public function setOptions(array $options): self
     {
         $this->options = new Collection();
@@ -29,19 +21,13 @@ trait HasOptions
         return $this;
     }
 
-    /**
-     * @return Collection|null
-     */
     public function getOptions(): ?Collection
     {
         return $this->options ?? null;
     }
 
     /**
-     * @param mixed $key
-     * @param mixed $value
-     *
-     * @return static
+     * @inheritDoc
      */
     public function addOption($key, $value): self
     {

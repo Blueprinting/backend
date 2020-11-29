@@ -10,8 +10,5 @@ use Blueprinting\Interfaces\ElementsInterface;
 
 interface WithChildren extends ArrayAccess, Countable
 {
-    /**
-     * @return ElementsInterface
-     */
     public function getChildren(): ElementsInterface;
 }

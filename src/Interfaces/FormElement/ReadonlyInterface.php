@@ -6,16 +6,6 @@ namespace Blueprinting\Interfaces\FormElement;
 
 interface ReadonlyInterface
 {
-    /**
-     * @param bool|null $readonly
-     *
-     * @return static
-     */
-    public function setReadonly(bool $readonly = null): self;
-
-
-    /**
-     * @return bool
-     */
+    public function setReadonly(bool $readonly = true): self;
     public function isReadonly(): bool;
 }

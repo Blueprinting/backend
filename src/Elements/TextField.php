@@ -25,9 +25,8 @@ class TextField extends FormElement implements
      * TextField constructor.
      *
      * @param string|string[]|null $name
-     * @param string|null $label
      */
-    public function __construct($name = null, string $label = null)
+    public function __construct($name = null, ?string $label = null)
     {
         parent::__construct($name);
 

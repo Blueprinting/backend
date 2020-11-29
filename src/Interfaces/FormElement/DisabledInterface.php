@@ -6,16 +6,6 @@ namespace Blueprinting\Interfaces\FormElement;
 
 interface DisabledInterface
 {
-    /**
-     * @param bool|null $disabled
-     *
-     * @return static
-     */
-    public function setDisabled(bool $disabled = null): self;
-
-
-    /**
-     * @return bool
-     */
+    public function setDisabled(bool $disabled = true): self;
     public function isDisabled(): bool;
 }

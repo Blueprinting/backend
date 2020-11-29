@@ -6,17 +6,6 @@ namespace Blueprinting\Interfaces\FormElement;
 
 interface LabelInterface
 {
-    /**
-     * @param string $text
-     * @param array|null $replacement
-     * @param bool|null $translate
-     *
-     * @return static
-     */
-    public function setLabel(string $text, array $replacement = null, bool $translate = null): self;
-
-    /**
-     * @return string|null
-     */
+    public function setLabel(string $text, ?array $replacement = null, bool $translate = true): self;
     public function getLabel(): ?string;
 }

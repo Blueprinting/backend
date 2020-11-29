@@ -17,9 +17,6 @@ abstract class FormElement extends Element implements FormElementInterface
      */
     private ?array $name;
 
-    /**
-     * @var bool
-     */
     private bool $required;
 
     /**
@@ -103,10 +100,6 @@ abstract class FormElement extends Element implements FormElementInterface
         return $this->getDefaultValue();
     }
 
-    /**
-     * @return array|null
-     * @throws JsonException
-     */
     public function getRequestData(): ?array
     {
         if (
@@ -158,20 +151,12 @@ abstract class FormElement extends Element implements FormElementInterface
         );
     }
 
-    /**
-     * @param bool|null $required
-     *
-     * @return static
-     */
-    public function setRequired(bool $required = null): self
+    public function setRequired(bool $required = true): self
     {
         $this->required = $required ?? true;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isRequired(): bool
     {
         return $this->required ?? false;

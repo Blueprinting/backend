@@ -6,25 +6,14 @@ namespace Blueprinting\Traits;
 
 trait HasReadonly
 {
-    /**
-     * @var bool
-     */
     private bool $readonly;
 
-    /**
-     * @param bool|null $readonly
-     *
-     * @return static
-     */
-    public function setReadonly(bool $readonly = null): self
+    public function setReadonly(bool $readonly = true): self
     {
         $this->readonly = $readonly ?? true;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isReadonly(): bool
     {
         return $this->readonly ?? false;
