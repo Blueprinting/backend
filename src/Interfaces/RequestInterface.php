@@ -7,5 +7,5 @@ namespace Blueprinting\Interfaces;
 interface RequestInterface
 {
     public function __construct(\Psr\Http\Message\RequestInterface $request);
-    public function getData():? array;
+    public function getData(): ?array;
 }
