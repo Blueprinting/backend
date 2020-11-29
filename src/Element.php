@@ -48,23 +48,6 @@ abstract class Element implements ElementInterface
         return $this;
     }
 
-    public function getRequest(): ?RequestInterface
-    {
-        $parent = $this;
-        $i = 0;
-
-        do {
-            if ($parent instanceof Blueprint) {
-                return $parent->getRequest();
-            }
-
-            $parent = $parent->getParent();
-            $i++;
-        } while ($parent !== null && $i < 100);
-
-        return null;
-    }
-
     public function getAttributesAttribute(): AttributesInterface
     {
         if (!isset($this->internalAttributes)) {

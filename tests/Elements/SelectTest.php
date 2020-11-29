@@ -4,7 +4,6 @@ namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Blueprint;
 use Blueprinting\Elements\Select;
-use JsonException;
 use Nyholm\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -68,8 +67,6 @@ class SelectTest extends TestCase
         ], '{"test":{"field":"value"}}');
 
         $blueprint = new Blueprint($request);
-
-        $blueprint->setRequest($request);
 
         $element = Select::make()->setName(['test', 'field']);
 

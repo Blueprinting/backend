@@ -17,7 +17,6 @@ abstract class FormElement extends Element implements FormElementInterface
      * @var string[]|null
      */
     private ?array $name;
-
     private bool $required;
 
     /**
@@ -100,18 +99,30 @@ abstract class FormElement extends Element implements FormElementInterface
         return $this->getDefaultValue();
     }
 
+    /**
+     * @internal
+     */
+    public function getRequest(): ?Request
+    {
+        $parent = $this;
+        $i = 0;
+
+        do {
+            if ($parent instanceof Blueprint) {
+                return $parent->getRequest();
+            }
+
+            $parent = $parent->getParent();
+            $i++;
+        } while ($parent !== null && $i < 100);
+
+        return null;
+    }
+
     public function getRequestData(): ?array
     {
-        try {
-            if (
-                ($request = $this->getRequest()) &&
-                ($body = (string)$request->getBody()) &&
-                ($body = json_decode($body, true, 512, JSON_THROW_ON_ERROR))
-            ) {
-                return $body;
-            }
-        } catch (JsonException $e) {
-            throw new InvalidJsonException('Invalid JSON in request body.', $e->getCode(), $e);
+        if ($request = $this->getRequest()) {
+            return $request->getData();
         }
 
         return null;

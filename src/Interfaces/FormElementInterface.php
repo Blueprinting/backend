@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Blueprinting\Interfaces;
 
+use Blueprinting\Request;
+
 interface FormElementInterface extends ElementInterface
 {
     /**
@@ -32,4 +34,5 @@ interface FormElementInterface extends ElementInterface
     public function getDefaultValue();
     public function setRequired(bool $required = true): self;
     public function isRequired(): bool;
+    public function getRequest(): ?Request;
 }

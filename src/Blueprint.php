@@ -20,11 +20,11 @@ class Blueprint extends Element implements
     use HasChildren;
     use HasTemplate;
 
-    private RequestInterface $request;
+    private Request $request;
 
     public function __construct(RequestInterface $request, ?TemplateInterface $template = null)
     {
-        $this->request = $request;
+        $this->request = new Request($request);
 
         if ($template !== null) {
             $this->setTemplate($template);
@@ -39,12 +39,12 @@ class Blueprint extends Element implements
         return 'blueprint';
     }
 
-    public function getRequest(): RequestInterface
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
-    public function setRequest(RequestInterface $request): self
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
         return $this;

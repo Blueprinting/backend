@@ -48,7 +48,6 @@ class TextFieldTest extends TestCase
         ], '{"test":{"field":"value"}}');
 
         $blueprint = new Blueprint($request);
-        $blueprint->setRequest($request);
 
         $textField = TextField::make()->setName(['test', 'field']);
 
