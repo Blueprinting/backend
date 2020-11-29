@@ -9,14 +9,12 @@ use PHPUnit\Framework\TestCase;
 class SectionTest extends TestCase
 {
     /**
-     * Assert object
-     *
-     * @return void
+     * Assert object.
      */
     public function testObject(): void
     {
-        $element = new Section('title', 'description', [new TextField()]);
-        $element->toolbar[] = new TextField();
+        $element = new Section('title', 'description', [TextField::make()]);
+        $element->toolbar[] = TextField::make();
 
         self::assertEquals('section', $element->getType());
         self::assertCount(1, $element);
@@ -33,13 +31,11 @@ class SectionTest extends TestCase
 
     /**
      * Assert serialization.
-     *
-     * @return void
      */
     public function testSerialization(): void
     {
-        $element = new Section('title', 'description', [new TextField()]);
-        $element->toolbar[] = new TextField();
+        $element = new Section('title', 'description', [TextField::make()]);
+        $element->toolbar[] = TextField::make();
 
         $serialization = $element->serialize();
 

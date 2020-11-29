@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Blueprinting;
 
+use Blueprinting\Exceptions\InvalidJsonException;
 use Blueprinting\Interfaces\FormElement\DisabledInterface;
 use Blueprinting\Interfaces\FormElement\ReadonlyInterface;
 use Blueprinting\Interfaces\FormElementInterface;
@@ -75,7 +76,6 @@ abstract class FormElement extends Element implements FormElementInterface
 
     /**
      * @inheritDoc
-     * @throws JsonException
      */
     public function getValue()
     {
@@ -102,12 +102,16 @@ abstract class FormElement extends Element implements FormElementInterface
 
     public function getRequestData(): ?array
     {
-        if (
-            ($request = $this->getRequest()) &&
-            ($body = (string)$request->getBody()) &&
-            ($body = @json_decode($body, true, 512, JSON_THROW_ON_ERROR))
-        ) {
-            return $body;
+        try {
+            if (
+                ($request = $this->getRequest()) &&
+                ($body = (string)$request->getBody()) &&
+                ($body = json_decode($body, true, 512, JSON_THROW_ON_ERROR))
+            ) {
+                return $body;
+            }
+        } catch (JsonException $e) {
+            throw new InvalidJsonException('Invalid JSON in request body.', $e->getCode(), $e);
         }
 
         return null;

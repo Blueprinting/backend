@@ -158,4 +158,14 @@ abstract class Element implements ElementInterface
             return $this->$method();
         }
     }
+
+    /**
+     * Create a new instance of element.
+     *
+     * @return static
+     */
+    public static function make(): self
+    {
+        return new static(...func_get_args());
+    }
 }

@@ -13,9 +13,7 @@ use RuntimeException;
 class BlueprintTest extends TestCase
 {
     /**
-     * Assert blueprint object
-     *
-     * @return void
+     * Assert blueprint object.
      */
     public function testObject(): void
     {
@@ -40,19 +38,17 @@ class BlueprintTest extends TestCase
     }
 
     /**
-     * Assert elements array access
-     *
-     * @return void
+     * Assert elements array access.
      */
     public function testElements(): void
     {
         $request = new Request('GET', '/');
         $blueprint = new Blueprint($request);
-        $blueprint->children[] = new TextField();
+        $blueprint->children[] = TextField::make();
 
         $blueprint->children[] = [
-            new TextField(),
-            new TextField(),
+            TextField::make(),
+            TextField::make(),
         ];
 
         self::assertCount(3, $blueprint->children);
@@ -62,7 +58,7 @@ class BlueprintTest extends TestCase
         self::assertNotTrue(isset($blueprint->children[5]));
 
         try {
-            $blueprint->children[3] = new TextField();
+            $blueprint->children[3] = TextField::make();
             self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
@@ -84,19 +80,17 @@ class BlueprintTest extends TestCase
     }
 
     /**
-     * Assert elements array access
-     *
-     * @return void
+     * Assert elements array access.
      */
     public function testChildren(): void
     {
         $request = new Request('GET', '/');
         $blueprint = new Blueprint($request);
-        $blueprint[] = new TextField();
+        $blueprint[] = TextField::make();
 
         $blueprint[] = [
-            new TextField(),
-            new TextField(),
+            TextField::make(),
+            TextField::make(),
         ];
 
         self::assertCount(3, $blueprint);
@@ -105,7 +99,7 @@ class BlueprintTest extends TestCase
         self::assertNotTrue(isset($blueprint[5]));
 
         try {
-            $blueprint[3] = new TextField();
+            $blueprint[3] = TextField::make();
             self::fail('RuntimeException was not thrown');
         } catch (RuntimeException $e) {
         }
@@ -131,15 +125,13 @@ class BlueprintTest extends TestCase
     }
 
     /**
-     * Assert collection construction during setting of a specific index
-     *
-     * @return void
+     * Assert collection construction during setting of a specific index.
      */
     public function testElementsCollection(): void
     {
         $request = new Request('GET', '/');
         $blueprint = new Blueprint($request);
-        $blueprint->children[3] = new TextField();
+        $blueprint->children[3] = TextField::make();
         self::assertCount(1, $blueprint->children);
 
         unset($blueprint->children[3]);
@@ -149,10 +141,6 @@ class BlueprintTest extends TestCase
 
     /**
      * Assert blueprint serialization.
-     *
-     * @return void
-     *
-     * @throws JsonException
      */
     public function testSerialization(): void
     {
@@ -165,7 +153,7 @@ class BlueprintTest extends TestCase
         );
 
         $blueprint->addClassName('className1');
-        $blueprint->children[] = new TextField();
+        $blueprint->children[] = TextField::make();
 
         $serialization = $blueprint->serialize();
 

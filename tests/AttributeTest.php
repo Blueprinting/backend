@@ -10,9 +10,7 @@ class AttributeTest extends TestCase
 {
 
     /**
-     * Assert attributes
-     *
-     * @return void
+     * Assert attributes.
      */
     public function testAttributeUtilities(): void
     {
@@ -34,8 +32,6 @@ class AttributeTest extends TestCase
 
     /**
      * Assert serialization.
-     *
-     * @return void
      */
     public function testSerialization(): void
     {

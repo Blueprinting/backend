@@ -13,13 +13,10 @@ class SelectTest extends TestCase
 {
     /**
      * Assert object
-     *
-     * @return void
-     * @throws JsonException
      */
     public function testObject(): void
     {
-        $element = new Select('name', 'label');
+        $element = Select::make('name', 'label');
         $element->setName('name');
         $element->setLabel('label');
         $element->setReadonly();
@@ -63,9 +60,6 @@ class SelectTest extends TestCase
 
     /**
      * Assert getValue()
-     *
-     * @return void
-     * @throws JsonException
      */
     public function testGetValue(): void
     {
@@ -77,8 +71,7 @@ class SelectTest extends TestCase
 
         $blueprint->setRequest($request);
 
-        $element = (new Select())
-            ->setName(['test', 'field']);
+        $element = Select::make()->setName(['test', 'field']);
 
         self::assertNull($element->getValue());
 
@@ -96,24 +89,20 @@ class SelectTest extends TestCase
 
     /**
      * Assert collection construction during adding of a new option
-     *
-     * @return void
      */
     public function testOptionsCollection(): void
     {
-        $element = new Select();
+        $element = Select::make();
         $element->addOption('name', 'value');
         self::assertCount(1, $element->getOptions()); // @phpstan-ignore-line
     }
 
     /**
      * Assert serialization.
-     *
-     * @return void
      */
     public function testSerialization(): void
     {
-        $element = new Select();
+        $element = Select::make();
         $element->setMultiple();
 
         $serialization = $element->serialize();

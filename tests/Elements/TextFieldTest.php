@@ -11,13 +11,11 @@ use RuntimeException;
 class TextFieldTest extends TestCase
 {
     /**
-     * Assert object
-     *
-     * @return void
+     * Assert object.
      */
     public function testObject(): void
     {
-        $element = new TextField('name', 'label');
+        $element = TextField::make('name', 'label');
         $element->setName('name');
         $element->setLabel('text');
         $element->setReadonly();
@@ -41,9 +39,7 @@ class TextFieldTest extends TestCase
     }
 
     /**
-     * Assert getValue()
-     *
-     * @return void
+     * Assert getValue().
      */
     public function testGetValue(): void
     {
@@ -54,7 +50,7 @@ class TextFieldTest extends TestCase
         $blueprint = new Blueprint($request);
         $blueprint->setRequest($request);
 
-        $textField = (new TextField())->setName(['test', 'field']);
+        $textField = TextField::make()->setName(['test', 'field']);
 
         self::assertNull($textField->getValue());
 
@@ -75,12 +71,10 @@ class TextFieldTest extends TestCase
 
     /**
      * Assert serialization.
-     *
-     * @return void
      */
     public function testSerialization(): void
     {
-        $element = new TextField();
+        $element = TextField::make();
         $element->setReadonly();
         $element->setDisabled();
         $serialization = $element->serialize();
