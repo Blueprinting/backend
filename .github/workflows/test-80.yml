@@ -8,10 +8,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup PHP 74
+    - name: Setup PHP 80
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.0'
 
     - name: Validate composer.json
       run: composer validate
