@@ -13,7 +13,7 @@ class SectionTest extends TestCase
      */
     public function testObject(): void
     {
-        $element = new Section('title', 'description', [TextField::make()]);
+        $element = Section::make('title', 'description', [TextField::make()]);
         $element->toolbar[] = TextField::make();
 
         self::assertEquals('section', $element->getType());
@@ -34,7 +34,7 @@ class SectionTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $element = new Section('title', 'description', [TextField::make()]);
+        $element = Section::make('title', 'description', [TextField::make()]);
         $element->toolbar[] = TextField::make();
 
         $serialization = $element->serialize();

@@ -57,4 +57,9 @@ class Blueprint extends Element implements
     {
         return $this->serialize();
     }
+
+    public static function make(RequestInterface $request, ?TemplateInterface $template = null): Blueprint
+    {
+        return new Blueprint($request, $template);
+    }
 }

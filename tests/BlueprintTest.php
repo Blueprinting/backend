@@ -18,7 +18,7 @@ class BlueprintTest extends TestCase
     public function testObject(): void
     {
         $request = new Request('GET', '/');
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
 
         self::assertEquals('blueprint', $blueprint->getType());
 
@@ -43,7 +43,7 @@ class BlueprintTest extends TestCase
     public function testElements(): void
     {
         $request = new Request('GET', '/');
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
         $blueprint->children[] = TextField::make();
 
         $blueprint->children[] = [
@@ -85,7 +85,7 @@ class BlueprintTest extends TestCase
     public function testChildren(): void
     {
         $request = new Request('GET', '/');
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
         $blueprint[] = TextField::make();
 
         $blueprint[] = [
@@ -130,7 +130,7 @@ class BlueprintTest extends TestCase
     public function testElementsCollection(): void
     {
         $request = new Request('GET', '/');
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
         $blueprint->children[3] = TextField::make();
         self::assertCount(1, $blueprint->children);
 
@@ -145,7 +145,7 @@ class BlueprintTest extends TestCase
     public function testSerialization(): void
     {
         $request = new Request('GET', '/');
-        $blueprint = new Blueprint(
+        $blueprint = Blueprint::make(
             $request,
             new Template('test', [
                 'name' => 'value',

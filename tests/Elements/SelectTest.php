@@ -66,7 +66,7 @@ class SelectTest extends TestCase
             'Content-Type' => 'application/json'
         ], '{"test":{"field":"value"}}');
 
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
 
         $element = Select::make()->setName(['test', 'field']);
 

@@ -116,4 +116,12 @@ class Section extends Element implements WithChildren
             static fn($value) => $value !== null
         );
     }
+
+    /**
+     * @param ElementInterface[]|null $elements
+     */
+    public static function make(?string $title = null, ?string $description = null, ?array $elements = null): Section
+    {
+        return new Section($title, $description, $elements);
+    }
 }

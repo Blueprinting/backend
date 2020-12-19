@@ -32,12 +32,16 @@ class Select extends FormElement implements
      *
      * @param string|string[]|null $name
      */
-    public function __construct($name = null, ?string $label = null)
+    public function __construct($name = null, ?string $label = null, ?array $options = null)
     {
         parent::__construct($name);
 
         if ($label !== null) {
             $this->setLabel($label);
+        }
+
+        if ($options !== null) {
+            $this->setOptions($options);
         }
     }
 
@@ -85,5 +89,13 @@ class Select extends FormElement implements
                 'multiple' => $this->hasMultiple(),
             ]
         );
+    }
+
+    /**
+     * @param string|string[]|null $name
+     */
+    public static function make($name = null, ?string $label = null, ?array $options = null): Select
+    {
+        return new Select($name, $label, $options);
     }
 }

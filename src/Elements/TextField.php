@@ -52,4 +52,12 @@ class TextField extends FormElement implements
 
         return ($value !== null ? (string)$value : null);
     }
+
+    /**
+     * @param string|string[]|null $name
+     */
+    public static function make($name = null, ?string $label = null): TextField
+    {
+        return new TextField($name, $label);
+    }
 }

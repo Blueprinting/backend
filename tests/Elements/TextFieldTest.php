@@ -47,7 +47,7 @@ class TextFieldTest extends TestCase
             'Content-Type' => 'application/json'
         ], '{"test":{"field":"value"}}');
 
-        $blueprint = new Blueprint($request);
+        $blueprint = Blueprint::make($request);
 
         $textField = TextField::make()->setName(['test', 'field']);
 
