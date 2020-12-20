@@ -105,10 +105,7 @@ abstract class Element implements ElementInterface
     {
         $serialization = [
             'type' => $this->getType(),
-            'attributes' => (($attributes = $this->attributes->getAll()) ?
-                $attributes->pluck('value', 'name')->toArray() :
-                null
-            ),
+            'attributes' => $this->attributes->getAll(),
             'classNames' => $this->getClassNames(),
         ];
 

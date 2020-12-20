@@ -6,7 +6,6 @@ namespace Blueprinting\Interfaces;
 
 use ArrayAccess;
 use Countable;
-use Illuminate\Support\Collection;
 
 interface ElementsInterface extends ArrayAccess, Countable
 {
@@ -20,6 +19,6 @@ interface ElementsInterface extends ArrayAccess, Countable
     /**
      * Get collection.
      */
-    public function get(): ?Collection;
+    public function get(): ?array;
     public function serialize(): ?array;
 }

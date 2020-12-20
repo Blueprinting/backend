@@ -6,13 +6,12 @@ namespace Blueprinting;
 
 use Blueprinting\Interfaces\ElementInterface;
 use Blueprinting\Interfaces\ElementsInterface;
-use Illuminate\Support\Collection;
 use RuntimeException;
 
 class Elements implements ElementsInterface
 {
     private ElementInterface $parent;
-    private Collection $elements;
+    private array $elements;
 
     public function __construct(?ElementInterface $parent = null)
     {
@@ -27,7 +26,7 @@ class Elements implements ElementsInterface
     public function add($element): self
     {
         if (!isset($this->elements)) {
-            $this->elements = new Collection();
+            $this->elements = [];
         }
 
         if ($element instanceof ElementInterface) {
@@ -50,7 +49,7 @@ class Elements implements ElementsInterface
     /**
      * @inheritDoc
      */
-    public function get(): ?Collection
+    public function get(): ?array
     {
         return $this->elements ?? null;
     }
@@ -92,7 +91,7 @@ class Elements implements ElementsInterface
         }
 
         if (!isset($this->elements)) {
-            $this->elements = new Collection();
+            $this->elements = [];
         }
 
         $this->elements[$offset] = $value;
@@ -114,13 +113,16 @@ class Elements implements ElementsInterface
      */
     public function count(): int
     {
-        return (isset($this->elements) ? $this->elements->count() : 0);
+        return (isset($this->elements) ? count($this->elements) : 0);
     }
 
     public function serialize(): ?array
     {
         if ($children = $this->get()) {
-            return $children->map(static fn (ElementInterface $element) => $element->serialize())->toArray();
+            return array_map(
+                static fn (ElementInterface $element) => $element->serialize(),
+                $children
+            );
         }
 
         return null;
