@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Blueprinting;
 
+use Blueprinting\Element\OptionGroup;
 use Blueprinting\Exceptions\InvalidJsonException;
 use Blueprinting\Interfaces\FormElement\DisabledInterface;
+use Blueprinting\Interfaces\FormElement\OptionGroupInterface;
 use Blueprinting\Interfaces\FormElement\ReadonlyInterface;
 use Blueprinting\Interfaces\FormElementInterface;
 use JsonException;
@@ -159,6 +161,21 @@ abstract class FormElement extends Element implements FormElementInterface
             ],
             static fn($value) => $value !== null,
         );
+
+        if (
+            $this instanceof OptionGroupInterface &&
+            ($optionGroups = $this->getOptionGroups())
+        ) {
+            $serialization['optionGroups'] = array_map(
+                static function (OptionGroup $optionGroup) {
+                    return [
+                        'text' => $optionGroup->getText(),
+                        'options' => $optionGroup->getOptions(),
+                    ];
+                },
+                $optionGroups
+            );
+        }
 
         return array_replace(
             parent::serialize(),

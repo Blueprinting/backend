@@ -24,7 +24,7 @@ class TextFieldTest extends TestCase
         $element->setDefaultValue('default');
 
         self::assertEquals('text-field', $element->getType());
-        self::assertEquals('name', $element->getName()[0]); // @phpstan-ignore-line
+        self::assertEquals('name', $element->getName()[0]);
         self::assertEquals('text', $element->getLabel());
         self::assertTrue($element->isReadonly());
         self::assertTrue($element->isDisabled());
@@ -35,7 +35,7 @@ class TextFieldTest extends TestCase
         self::assertNull($element->getName());
 
         $this->expectException(RuntimeException::class);
-        $element->setName(0); // @phpstan-ignore-line
+        $element->setName(0);
     }
 
     /**

@@ -4,26 +4,27 @@ declare(strict_types=1);
 
 namespace Blueprinting\Elements;
 
+use Blueprinting\Element\OptionGroup;
 use Blueprinting\FormElement;
 use Blueprinting\Interfaces\FormElement\DisabledInterface;
 use Blueprinting\Interfaces\FormElement\LabelInterface;
-use Blueprinting\Interfaces\FormElement\OptionsInterface;
+use Blueprinting\Interfaces\FormElement\OptionGroupInterface;
 use Blueprinting\Interfaces\FormElement\ReadonlyInterface;
 use Blueprinting\Traits\HasDisabled;
 use Blueprinting\Traits\HasLabel;
-use Blueprinting\Traits\HasOptions;
+use Blueprinting\Traits\HasOptionGroups;
 use Blueprinting\Traits\HasReadonly;
 
 class Select extends FormElement implements
     DisabledInterface,
     ReadonlyInterface,
     LabelInterface,
-    OptionsInterface
+    OptionGroupInterface
 {
     use HasDisabled;
     use HasReadonly;
     use HasLabel;
-    use HasOptions;
+    use HasOptionGroups;
 
     private bool $multiple;
 
@@ -76,6 +77,32 @@ class Select extends FormElement implements
     public function hasMultiple(): bool
     {
         return $this->multiple ?? false;
+    }
+
+    public function setOptions(array $options): self
+    {
+        $optionGroups = [];
+        $group = null;
+
+        foreach ($options as $key => $value) {
+            if ($value instanceof OptionGroup) {
+                $optionGroups[] = $value;
+            } else {
+                if ($group === null) {
+                    $group = new OptionGroup([]);
+                }
+
+                $group->addOption($key, $value);
+            }
+        }
+
+        if ($group !== null) {
+            $optionGroups[] = $group;
+        }
+
+        $this->setOptionGroups($optionGroups);
+
+        return $this;
     }
 
     /**

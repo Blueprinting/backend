@@ -28,17 +28,18 @@ class SelectTest extends TestCase
         $element->setDefaultValue('default');
 
         $element->setMultiple();
-        $options = $element->getOptions();
+        $optionGroups = $element->getOptionGroups();
+        $options = $optionGroups[0]->getOptions();
 
         self::assertNotNull($options);
-        self::assertCount(2, $options); // @phpstan-ignore-line
+        self::assertCount(2, $options);
         self::assertEquals('select', $element->getType());
 
         $name = $element->getName();
         self::assertNotEmpty($name);
         self::assertIsArray($name);
-        self::assertArrayHasKey(0, $name); // @phpstan-ignore-line
-        self::assertEquals('name', $name[0]); // @phpstan-ignore-line
+        self::assertArrayHasKey(0, $name);
+        self::assertEquals('name', $name[0]);
 
         self::assertEquals('label', $element->getLabel());
         self::assertTrue($element->isReadonly());
@@ -51,7 +52,7 @@ class SelectTest extends TestCase
         self::assertEquals(0, $element->getValue());
 
         $this->expectException(RuntimeException::class);
-        $element->setName(0); // @phpstan-ignore-line
+        $element->setName(0);
     }
 
     /**
@@ -87,8 +88,8 @@ class SelectTest extends TestCase
     public function testOptionsCollection(): void
     {
         $element = Select::make();
-        $element->addOption('name', 'value');
-        self::assertCount(1, $element->getOptions()); // @phpstan-ignore-line
+        $element->setOptions([1 => 2]);
+        self::assertCount(1, $element->getOptionGroups());
     }
 
     /**
@@ -96,7 +97,7 @@ class SelectTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $element = Select::make();
+        $element = Select::make('name', 'label', [1 => 2, 3 => 4]);
         $element->setMultiple();
 
         $serialization = $element->serialize();
@@ -107,5 +108,13 @@ class SelectTest extends TestCase
 
         self::assertArrayHasKey('multiple', $serialization);
         self::assertTrue($serialization['multiple'], $serialization['multiple']);
+
+        self::assertArrayHasKey('optionGroups', $serialization);
+        self::assertNotEmpty($serialization['optionGroups']);
+        self::assertCount(1, $serialization['optionGroups']);
+        self::assertArrayHasKey(0, $serialization['optionGroups']);
+        self::assertArrayHasKey('text', $serialization['optionGroups'][0]);
+        self::assertArrayHasKey('options', $serialization['optionGroups'][0]);
+        self::assertCount(2, $serialization['optionGroups'][0]['options']);
     }
 }
