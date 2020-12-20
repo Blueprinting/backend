@@ -170,7 +170,16 @@ abstract class FormElement extends Element implements FormElementInterface
                 static function (OptionGroup $optionGroup) {
                     return [
                         'text' => $optionGroup->getText(),
-                        'options' => $optionGroup->getOptions(),
+                        'options' => array_map(
+                            static function ($value, $key) {
+                                return [
+                                    'key' => $key,
+                                    'value' => $value,
+                                ];
+                            },
+                            $optionGroup->getOptions(),
+                            array_keys($optionGroup->getOptions())
+                        ),
                     ];
                 },
                 $optionGroups
