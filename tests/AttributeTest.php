@@ -14,7 +14,10 @@ class AttributeTest extends TestCase
      */
     public function testAttributeUtilities(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = new Blueprint($request);
         $blueprint->attributes['name'] = 'value';
         $blueprint->attributes['name2'] = 'value2';
@@ -35,7 +38,10 @@ class AttributeTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = new Blueprint($request);
 
         $blueprint->attributes->set('name', 'value');

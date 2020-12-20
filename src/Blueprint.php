@@ -24,7 +24,7 @@ class Blueprint extends Element implements
 
     public function __construct(RequestInterface $request, ?TemplateInterface $template = null)
     {
-        $this->request = new Request($request);
+        $this->setRequest(new Request($request));
 
         if ($template !== null) {
             $this->setTemplate($template);

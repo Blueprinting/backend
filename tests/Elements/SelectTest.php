@@ -15,20 +15,17 @@ class SelectTest extends TestCase
      */
     public function testObject(): void
     {
-        $element = Select::make('name', 'label');
+        $element = Select::make('name', 'label', [
+            1 => 1,
+            2 => 2,
+        ]);
+
         $element->setName('name');
         $element->setLabel('label');
         $element->setReadonly();
         $element->setDisabled();
         $element->setRequired();
         $element->setDefaultValue('default');
-
-        $element->setOptions(
-            [
-                1 => 1,
-                2 => 2,
-            ]
-        );
 
         $element->setMultiple();
         $options = $element->getOptions();

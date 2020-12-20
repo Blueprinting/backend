@@ -19,7 +19,7 @@ class Request
 
     public function __construct(RequestInterface $request)
     {
-        $contentType = 'application/json';
+        $contentType = 'text/plain';
 
         if (
             ($contentTypeHeader = $request->getHeader('Content-Type')) &&

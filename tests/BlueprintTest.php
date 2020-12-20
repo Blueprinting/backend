@@ -4,8 +4,9 @@ namespace Blueprinting\Tests;
 
 use Blueprinting\Blueprint;
 use Blueprinting\Elements\TextField;
+use Blueprinting\Exceptions\InvalidJsonException;
+use Blueprinting\Exceptions\InvalidRequestException;
 use Blueprinting\Template;
-use JsonException;
 use Nyholm\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -17,7 +18,10 @@ class BlueprintTest extends TestCase
      */
     public function testObject(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = Blueprint::make($request);
 
         self::assertEquals('blueprint', $blueprint->getType());
@@ -42,7 +46,10 @@ class BlueprintTest extends TestCase
      */
     public function testElements(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = Blueprint::make($request);
         $blueprint->children[] = TextField::make();
 
@@ -84,7 +91,10 @@ class BlueprintTest extends TestCase
      */
     public function testChildren(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = Blueprint::make($request);
         $blueprint[] = TextField::make();
 
@@ -129,7 +139,10 @@ class BlueprintTest extends TestCase
      */
     public function testElementsCollection(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = Blueprint::make($request);
         $blueprint->children[3] = TextField::make();
         self::assertCount(1, $blueprint->children);
@@ -144,7 +157,10 @@ class BlueprintTest extends TestCase
      */
     public function testSerialization(): void
     {
-        $request = new Request('GET', '/');
+        $request = new Request('GET', '/', [
+            'Content-Type' => 'application/json',
+        ]);
+
         $blueprint = Blueprint::make(
             $request,
             new Template('test', [
@@ -222,5 +238,32 @@ class BlueprintTest extends TestCase
         self::assertArrayHasKey('children', $serialization);
         self::assertNotEmpty($serialization['children']);
         self::assertIsArray($serialization['children']);
+    }
+
+    /**
+     * Assert that when constructing a request that has a unrecognized Content-Type it should throw an exception.
+     */
+    public function testUnrecognizedContentType(): void
+    {
+        $this->expectException(InvalidRequestException::class);
+        new \Blueprinting\Request(
+            new Request('GET', '/', [
+                'Content-Type' => 'text/plain',
+            ])
+        );
+    }
+
+    /**
+     * Assert that when constructing a request that has application/json
+     * throws a exception when not valid json is passed.
+     */
+    public function testInvalidJsonInRequest(): void
+    {
+        $this->expectException(InvalidJsonException::class);
+        new \Blueprinting\Request(
+            new Request('GET', '/', [
+                'Content-Type' => 'application/json',
+            ], '{"invalidJson}')
+        );
     }
 }
