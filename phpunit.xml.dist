@@ -11,9 +11,6 @@
       <clover outputFile="clover.xml"/>
     </report>
   </coverage>
-  <php>
-    <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-  </php>
   <logging/>
   <testsuites>
     <testsuite name="Blueprinting test suite">
