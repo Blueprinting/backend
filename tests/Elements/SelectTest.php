@@ -3,6 +3,7 @@
 namespace Blueprinting\Tests\Elements;
 
 use Blueprinting\Blueprint;
+use Blueprinting\Element\OptionGroup;
 use Blueprinting\Elements\Select;
 use Nyholm\Psr7\Request;
 use PHPUnit\Framework\TestCase;
@@ -90,6 +91,27 @@ class SelectTest extends TestCase
         $element = Select::make();
         $element->setOptions([1 => 2]);
         self::assertCount(1, $element->getOptionGroups());
+
+        $element->setOptions(
+            [
+                new OptionGroup(
+                    [
+                        1 => 2,
+                        3 => 4
+                    ],
+                    'Header #1'
+                ),
+                new OptionGroup(
+                    [
+                        5 => 6,
+                        7 => 8
+                    ],
+                    'Header #2'
+                ),
+            ]
+        );
+
+        self::assertCount(2, $element->getOptionGroups());
     }
 
     /**
