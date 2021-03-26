@@ -82,4 +82,17 @@ class TextFieldTest extends TestCase
         self::assertArrayHasKey('type', $serialization);
         self::assertEquals('text-field', $serialization['type']);
     }
+
+    /**
+     * Assert chaining.
+     */
+    public function testChaining(): void
+    {
+        $element = TextField::make();
+        $element->setReadonly()->setDisabled()->setDefaultValue('default');
+
+        self::assertTrue($element->isReadonly());
+        self::assertTrue($element->isDisabled());
+        self::assertEquals('default', $element->getDefaultValue());
+    }
 }
