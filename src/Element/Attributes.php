@@ -31,21 +31,36 @@ class Attributes implements AttributesInterface
         return $this;
     }
 
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
     public function offsetExists($offset): bool
     {
         return $this->get($offset) !== null;
     }
 
+    /**
+     * @param mixed $offset
+     * @return mixed|string|null
+     */
     public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset): void
     {
         if ($this->get($offset) !== null) {

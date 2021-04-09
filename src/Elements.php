@@ -48,16 +48,28 @@ class Elements implements ElementsInterface
         return $this->elements ?? null;
     }
 
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->elements[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->elements[$offset];
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -76,6 +88,9 @@ class Elements implements ElementsInterface
         $this->elements[$offset] = $value;
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset): void
     {
         if (isset($this->elements[$offset])) {

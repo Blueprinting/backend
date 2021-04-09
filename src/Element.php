@@ -126,7 +126,7 @@ abstract class Element implements ElementInterface
         );
     }
 
-    public function __get(string $name)
+    public function __get(string $name): mixed
     {
         $method = 'get' . ucfirst($name) . 'Attribute';
 
