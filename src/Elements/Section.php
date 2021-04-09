@@ -52,9 +52,8 @@ class Section extends Element implements WithChildren
         return 'section';
     }
 
-    public function setTitle(string $title, ?array $replacements = null, bool $translate = true): self
+    public function setTitle(string $title): self
     {
-        // $this->title = ($translate || $translate === null ? (string)__($title, $replacements ?? []) : $title);
         $this->title = $title;
         return $this;
     }
@@ -64,15 +63,9 @@ class Section extends Element implements WithChildren
         return $this->title ?? null;
     }
 
-    public function setDescription(string $description, ?array $replacements = null, bool $translate = null): self
+    public function setDescription(string $description): self
     {
-        /* $this->description = ($translate || $translate === null ?
-            (string)__($description, $replacements ?? []) :
-            $description
-        ); */
-
         $this->description = $description;
-
         return $this;
     }
 
@@ -81,9 +74,6 @@ class Section extends Element implements WithChildren
         return $this->description ?? null;
     }
 
-    /**
-     * @return ElementsInterface
-     */
     public function getToolbar(): ElementsInterface
     {
         if (!isset($this->internalToolbar)) {
@@ -93,9 +83,6 @@ class Section extends Element implements WithChildren
         return $this->internalToolbar;
     }
 
-    /**
-     * @return ElementsInterface
-     */
     public function getToolbarAttribute(): ElementsInterface
     {
         return $this->getToolbar();

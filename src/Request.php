@@ -30,13 +30,10 @@ class Request
             $contentType = $contentTypeHeader[0];
         }
 
-        switch (strtolower($contentType)) {
-            case 'application/json':
-                $this->request = new JsonRequest($request);
-                break;
-
-            default:
-                throw new InvalidRequestException('Unrecognized Content-Type.');
+        if (strtolower($contentType) === 'application/json') {
+            $this->request = new JsonRequest($request);
+        } else {
+            throw new InvalidRequestException('Unrecognized Content-Type.');
         }
     }
 

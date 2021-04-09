@@ -35,19 +35,12 @@ class OptionGroup
         return $this->text ?? null;
     }
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @param string|int $key
-     * @param string|int $value
-     */
-    public function addOption($key, $value): self
+    public function addOption(string|int $key, string|int $value): self
     {
         $this->options = $this->options ?? [];
         $this->options[$key] = $value;

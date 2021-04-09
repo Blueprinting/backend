@@ -22,8 +22,8 @@ class SectionTest extends TestCase
         self::assertEquals('title', $element->getTitle());
         self::assertEquals('description', $element->getDescription());
 
-        $element->setTitle('title', null, false);
-        $element->setDescription('description', null, false);
+        $element->setTitle('title');
+        $element->setDescription('description');
 
         self::assertEquals('title', $element->getTitle());
         self::assertEquals('description', $element->getDescription());

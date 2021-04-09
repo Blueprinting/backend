@@ -50,9 +50,6 @@ class Blueprint extends Element implements
         return $this;
     }
 
-    /**
-     * @return array|mixed
-     */
     public function jsonSerialize()
     {
         return $this->serialize();

@@ -70,7 +70,7 @@ class Select extends FormElement implements
 
     public function setMultiple(bool $multiple = true): self
     {
-        $this->multiple = $multiple ?? true;
+        $this->multiple = $multiple;
         return $this;
     }
 

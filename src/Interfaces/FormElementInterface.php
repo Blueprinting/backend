@@ -24,12 +24,12 @@ interface FormElementInterface extends ElementInterface
     public function getValue();
 
     /**
-     * @param string|string[]|int|int[]|null $value
+     * @param array<int|string>|string|int|null $value
      */
     public function setDefaultValue($value): self;
 
     /**
-     * @return string|array|null
+     * @return array<int|string>|string|int|null
      */
     public function getDefaultValue();
     public function setRequired(bool $required = true): self;

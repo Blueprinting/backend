@@ -31,42 +31,21 @@ class Attributes implements AttributesInterface
         return $this;
     }
 
-    /**
-     * @param mixed $offset
-     *
-     * @return bool
-     * @inheritDoc
-     */
     public function offsetExists($offset): bool
     {
         return $this->get($offset) !== null;
     }
 
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed
-     * @inheritDoc
-     */
     public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @inheritDoc
-     */
     public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
-    /**
-     * @param mixed $offset
-     * @inheritDoc
-     */
     public function offsetUnset($offset): void
     {
         if ($this->get($offset) !== null) {
@@ -74,9 +53,6 @@ class Attributes implements AttributesInterface
         }
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return (isset($this->attributes) ? count($this->attributes) : 0);

@@ -31,48 +31,26 @@ trait HasChildren
         return $this->internalChildren;
     }
 
-    /**
-     * @param mixed $offset
-     * @return bool
-     * @inheritDoc
-     */
     public function offsetExists($offset): bool
     {
         return $this->getChildren()->offsetExists($offset);
     }
 
-    /**
-     * @param mixed $offset
-     * @return mixed
-     * @inheritDoc
-     */
     public function offsetGet($offset)
     {
         return $this->getChildren()->offsetGet($offset);
     }
 
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @inheritDoc
-     */
     public function offsetSet($offset, $value): void
     {
         $this->getChildren()->offsetSet($offset, $value);
     }
 
-    /**
-     * @param mixed $offset
-     * @inheritDoc
-     */
     public function offsetUnset($offset): void
     {
         $this->getChildren()->offsetUnset($offset);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return $this->getChildren()->count();

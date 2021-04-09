@@ -10,7 +10,7 @@ trait HasDisabled
 
     public function setDisabled(bool $disabled = true): self
     {
-        $this->disabled = $disabled ?? true;
+        $this->disabled = $disabled;
         return $this;
     }
 

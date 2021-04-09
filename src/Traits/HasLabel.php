@@ -8,9 +8,8 @@ trait HasLabel
 {
     private string $label;
 
-    public function setLabel(string $text, ?array $replacement = null, bool $translate = true): self
+    public function setLabel(string $text): self
     {
-        // $this->label = ($translate || $translate === null ? (string)__($text, $replacement ?? []) : $text);
         $this->label = $text;
         return $this;
     }

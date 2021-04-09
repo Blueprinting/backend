@@ -22,7 +22,7 @@ abstract class FormElement extends Element implements FormElementInterface
     private bool $required;
 
     /**
-     * @var mixed
+     * @var array<int|string>|string|int|null
      */
     private $defaultValue;
 
@@ -130,27 +130,17 @@ abstract class FormElement extends Element implements FormElementInterface
         return null;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function setDefaultValue($value): self
     {
         $this->defaultValue = $value;
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDefaultValue()
     {
         return $this->defaultValue ?? null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function serialize(): array
     {
         $serialization = array_filter(
@@ -194,7 +184,7 @@ abstract class FormElement extends Element implements FormElementInterface
 
     public function setRequired(bool $required = true): self
     {
-        $this->required = $required ?? true;
+        $this->required = $required;
         return $this;
     }
 
